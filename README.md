@@ -18,6 +18,7 @@ CASOS DE USO:
   - Imagen videojuego.
   - Precio videojuego.
   - Id videojuego.
+  - Descripción videojuego
   
   
   Api detalles de videojuegos: https://api.rawg.io/docs/
