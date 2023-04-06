@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/lastSalesFragment">
+    <fragment
+        android:id="@+id/favouritesGamesFragment"
+        android:name="dadm.jrbercan.trabajodadm.data.favouritesGames.FavouritesGamesFragment"
+        android:label="@string/favouritesNavGraph" />
+    <fragment
+        android:id="@+id/lastSalesFragment"
+        android:name="dadm.jrbercan.trabajodadm.data.lastSales.LastSalesFragment"
+        android:label="@string/lastSalesNavGraph" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="dadm.jrbercan.trabajodadm.data.settings.SettingsFragment"
+        android:label="@string/settingsNavGraph" />
+</navigation>
