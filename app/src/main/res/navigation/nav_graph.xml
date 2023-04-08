@@ -5,14 +5,14 @@
     app:startDestination="@id/lastSalesFragment">
     <fragment
         android:id="@+id/favouritesGamesFragment"
-        android:name="dadm.jrbercan.trabajodadm.data.favouritesGames.FavouritesGamesFragment"
+        android:name="dadm.jrbercan.trabajodadm.ui.favouritesGames.FavouritesGamesFragment"
         android:label="@string/favouritesNavGraph" />
     <fragment
         android:id="@+id/lastSalesFragment"
-        android:name="dadm.jrbercan.trabajodadm.data.lastSales.LastSalesFragment"
+        android:name="dadm.jrbercan.trabajodadm.ui.lastSales.LastSalesFragment"
         android:label="@string/lastSalesNavGraph" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="dadm.jrbercan.trabajodadm.data.settings.SettingsFragment"
+        android:name="dadm.jrbercan.trabajodadm.ui.settings.SettingsFragment"
         android:label="@string/settingsNavGraph" />
 </navigation>

@@ -1,11 +1,7 @@
-package dadm.jrbercan.trabajodadm.data.settings
+package dadm.jrbercan.trabajodadm.ui.settings
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import dadm.jrbercan.trabajodadm.R
 import dadm.jrbercan.trabajodadm.databinding.SettingsFragmentBinding
