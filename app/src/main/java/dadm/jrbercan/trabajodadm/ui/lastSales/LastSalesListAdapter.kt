@@ -5,16 +5,25 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import androidx.lifecycle.LiveData
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import dadm.jrbercan.trabajodadm.R
 import dadm.jrbercan.trabajodadm.databinding.SaleGameItemBinding
 import dadm.jrbercan.trabajodadm.domain.model.Game
+import java.util.*
 
-class LastSalesListAdapter(val itemClicked: ItemClicked) :
+class LastSalesListAdapter(val itemClicked: ItemClicked, private val gamesList: ArrayList<Game>) :
     androidx.recyclerview.widget.ListAdapter<Game, LastSalesListAdapter.ViewHolder>(
         LastSalesListAdapter.GameDiff
-    ) {
+    ), Filterable {
+
+    var gamesFilterList = ArrayList<Game>()
+
+    init {
+        gamesFilterList = gamesList
+    }
+
     interface ItemClicked {
         fun onClick(author: String)
     }
@@ -37,7 +46,7 @@ class LastSalesListAdapter(val itemClicked: ItemClicked) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(game: Game) {
             binding.tvGameTitle.text = game.title
-            binding.tvGamePrice.text = game.price.toString()
+            binding.tvGamePrice.text = game.price
         }
 
         init {
@@ -59,7 +68,49 @@ class LastSalesListAdapter(val itemClicked: ItemClicked) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        // holder.bind(getItem(position))
+        val selectTitleGameTextView =
+            holder.itemView.findViewById<TextView>(R.id.tvGameTitle)
+        selectTitleGameTextView.text = gamesFilterList[position].title
+
+        val selectPriceGameTextView =
+            holder.itemView.findViewById<TextView>(R.id.tvGamePrice)
+        selectPriceGameTextView.text = gamesFilterList[position].price
+    }
+
+    override fun getItemCount(): Int {
+        return gamesFilterList.size
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                if (charSearch.isEmpty()) {
+                    gamesFilterList = gamesList
+                } else {
+                    val resultList = ArrayList<Game>()
+                    for (row in gamesList) {
+                        if (row.title.lowercase(Locale.ROOT)
+                                .contains(charSearch.lowercase(Locale.ROOT))
+                        ) {
+                            resultList.add(row)
+                        }
+                    }
+                    gamesFilterList = resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = gamesFilterList
+                return filterResults
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                gamesFilterList = results?.values as ArrayList<Game>
+                notifyDataSetChanged()
+            }
+
+        }
     }
 
 }

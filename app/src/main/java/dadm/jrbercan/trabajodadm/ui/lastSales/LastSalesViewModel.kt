@@ -8,11 +8,11 @@ import dadm.jrbercan.trabajodadm.ui.favouritesGames.FavouritesGamesViewModel
 import kotlin.random.Random
 
 class LastSalesViewModel : ViewModel() {
-    private val _game : MutableLiveData<List<Game>> = getFavouriteGames()
-    val game : LiveData<List<Game>>
+    private val _game : MutableLiveData<ArrayList<Game>> = getFavouriteGames()
+    val game : LiveData<ArrayList<Game>>
         get() =_game
 
-    private fun getFavouriteGames(): MutableLiveData<List<Game>> {
+    private fun getFavouriteGames(): MutableLiveData<ArrayList<Game>> {
         val list: ArrayList<Game> = ArrayList(10)
         for (i in 1..10) {
             val numPrice = getRandom(0, 10)
@@ -20,8 +20,7 @@ class LastSalesViewModel : ViewModel() {
             val newGame = Game("Title  #$numTitle", "14.99 $")
             list.add(newGame)
         }
-        val mutableLiveData : MutableLiveData<List<Game>> = MutableLiveData(list.toList())
-        return mutableLiveData
+        return MutableLiveData(list)
     }
 
     private fun getRandom(min: Int, max: Int): Double {
