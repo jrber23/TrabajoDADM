@@ -9,9 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import dadm.jrbercan.trabajodadm.databinding.SaleGameItemBinding
 import dadm.jrbercan.trabajodadm.domain.model.Game
 
-class FavouriteGamesListAdapter : androidx.recyclerview.widget.ListAdapter<Game, FavouriteGamesListAdapter.ViewHolder>(
+class FavouriteGamesListAdapter(val itemClicked: ItemClicked) : androidx.recyclerview.widget.ListAdapter<Game, FavouriteGamesListAdapter.ViewHolder>(
     GameDiff
 ) {
+
+    interface ItemClicked {
+        fun onClick(author: String)
+    }
     object GameDiff : DiffUtil.ItemCallback<Game>() {
         override fun areItemsTheSame(oldItem: Game, newItem: Game): Boolean {
             return (oldItem.title == newItem.title) &&
@@ -26,7 +30,7 @@ class FavouriteGamesListAdapter : androidx.recyclerview.widget.ListAdapter<Game,
 
     }
 
-    class ViewHolder(val binding: SaleGameItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: SaleGameItemBinding, callback: ItemClicked) : RecyclerView.ViewHolder(binding.root) {
         fun bind(game: Game) {
             binding.tvGameTitle.text = game.title
             binding.tvGamePrice.text = game.price.toString()
@@ -34,6 +38,7 @@ class FavouriteGamesListAdapter : androidx.recyclerview.widget.ListAdapter<Game,
 
         init {
             binding.root.setOnClickListener {
+                callback.onClick("Hola")
                 Log.d("Pulsación", binding.tvGameTitle.text.toString())
             }
         }
@@ -45,7 +50,7 @@ class FavouriteGamesListAdapter : androidx.recyclerview.widget.ListAdapter<Game,
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ), itemClicked
         )
     }
 

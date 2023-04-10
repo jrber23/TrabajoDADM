@@ -1,6 +1,7 @@
 package dadm.jrbercan.trabajodadm.ui.favouritesGames
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -19,6 +20,13 @@ class FavouritesGamesFragment : Fragment(R.layout.fragment_favourites_games) {
     private var _binding: FragmentFavouritesGamesBinding? = null
     private val binding get() = _binding!!
     private val viewModel: FavouritesGamesViewModel by activityViewModels()
+    private val callback = object: FavouriteGamesListAdapter.ItemClicked {
+        override fun onClick(author: String) {
+            Log.d("Pulsacion", "Pulsacion")
+        }
+
+    }
+
     private val itemTouchHelperCallback =
         object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.END) {
             override fun onMove(
@@ -52,6 +60,7 @@ class FavouritesGamesFragment : Fragment(R.layout.fragment_favourites_games) {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.delete_all_favorite -> {
+                        DeleteAllGamesDialogFragment().show(childFragmentManager, null)
                         true
                     }
                     else -> false
@@ -60,7 +69,7 @@ class FavouritesGamesFragment : Fragment(R.layout.fragment_favourites_games) {
 
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        val adapter: FavouriteGamesListAdapter = FavouriteGamesListAdapter()
+        val adapter: FavouriteGamesListAdapter = FavouriteGamesListAdapter(callback)
         binding.recyclerViewFavorites.adapter = adapter
         viewModel.game.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)

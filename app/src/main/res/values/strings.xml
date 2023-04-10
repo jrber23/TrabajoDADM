@@ -8,4 +8,12 @@
     <string name="lastSalesNavGraph">Last Sales</string>
     <string name="settingsNavGraph">Settings</string>
     <string name="deleteAllFavourite">Delete all games</string>
+    <string name="add_favorite_dialog_title">Add to favourites list</string>
+    <string name="add_favorite_dialog_message">Do you want to add this game to your favourite games list?</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
+    <string name="delete_all_games_dialog_title">Delete all favourite games</string>
+    <string name="delete_all_games_dialog_message">Do you want to delete all games from your favourites list?</string>
+    <string name="search_title">Search</string>
+    <string name="search_hint">Game title...</string>
 </resources>
