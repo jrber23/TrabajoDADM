@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -31,6 +30,7 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales) {
         override fun onClick(author: String) {
             AddToFavouritesDialogFragment().show(childFragmentManager, null)
         }
+
     }
 
     private val itemTouchHelperCallback =
@@ -50,23 +50,23 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales) {
             override fun isLongPressDragEnabled(): Boolean {
                 return false
             }
+
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLastSalesBinding.bind(view)
 
-        val lista = viewModel.game.value
-        val adapter: LastSalesListAdapter = LastSalesListAdapter(callback, lista!!)
+        val adapter: LastSalesListAdapter = LastSalesListAdapter(callback)
         binding.lastOffersRecyclerView.adapter = adapter
         viewModel.game.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
         }
 
-        /* val menuHost : MenuHost = requireActivity()
-        menuHost.addMenuProvider(object : MenuProvider {
+        val menuHost : MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider, SearchView.OnQueryTextListener {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu., menu)
+                menuInflater.inflate(R.menu.last_sales_options, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -79,19 +79,15 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales) {
                 }
             }
 
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED) */
-
-        binding.searchViewSaleGames.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                adapter.filter.filter(newText)
                 return true
             }
 
-        })
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     override fun onDestroy() {
