@@ -11,10 +11,6 @@ class SaleGameRepositoryImpl @Inject constructor(
 ) :
     SaleGameRepository {
     override suspend fun getAllSaleGames(): Result<ArrayList<Game>> {
-        return if (connectivityChecker.isConnectionAvailable()) {
-
-        } else {
-            Result.failure(NoInternetException())
-        }
+        TODO("Not yet implemented")
     }
 }
