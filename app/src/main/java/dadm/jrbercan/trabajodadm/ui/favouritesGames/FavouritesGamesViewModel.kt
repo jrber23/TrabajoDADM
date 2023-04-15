@@ -16,7 +16,7 @@ class FavouritesGamesViewModel : ViewModel() {
         for (i in 1..10) {
             val numPrice = getRandom(0, 10)
             val numTitle = (0..10).random().toString()
-            val newGame = Game("Title  #$numTitle", "14.99 $")
+            val newGame = Game("","Title  #$numTitle", "14.99 $")
             list.add(newGame)
         }
         val mutableLiveData : MutableLiveData<List<Game>> = MutableLiveData(list.toList())

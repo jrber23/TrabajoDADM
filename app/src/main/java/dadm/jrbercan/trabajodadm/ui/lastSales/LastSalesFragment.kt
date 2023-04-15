@@ -1,14 +1,12 @@
 package dadm.jrbercan.trabajodadm.ui.lastSales
 
-import android.app.SearchManager
-import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -19,7 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import dadm.jrbercan.trabajodadm.R
 import dadm.jrbercan.trabajodadm.databinding.FragmentLastSalesBinding
 import dadm.jrbercan.trabajodadm.ui.favouritesGames.DeleteAllGamesDialogFragment
-import dadm.jrbercan.trabajodadm.ui.favouritesGames.FavouriteGamesListAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.*
 
 
 class LastSalesFragment : Fragment(R.layout.fragment_last_sales) {
@@ -27,7 +26,8 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales) {
     private val binding get() = _binding!!
     private val viewModel: LastSalesViewModel by activityViewModels()
     private val callback = object : LastSalesListAdapter.ItemClicked {
-        override fun onClick(author: String) {
+        override fun onClick(thumb: String) {
+            Log.d("IMAGEN", thumb)
             AddToFavouritesDialogFragment().show(childFragmentManager, null)
         }
 
@@ -88,6 +88,12 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales) {
             }
 
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        getAllSaleGames()
+    }
+
+    fun getAllSaleGames() {
+        viewModel.getAllSaleGames()
     }
 
     override fun onDestroy() {

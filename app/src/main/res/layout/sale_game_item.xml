@@ -42,7 +42,6 @@
                         android:layout_gravity="top"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="32dp"
                         android:text="TextView"
                         android:textColor="@color/white"
                         android:textSize="25sp" />

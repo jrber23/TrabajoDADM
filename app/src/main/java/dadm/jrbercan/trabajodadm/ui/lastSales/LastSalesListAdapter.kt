@@ -5,27 +5,30 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import dadm.jrbercan.trabajodadm.data.saleGames.model.SaleGameDto
 import dadm.jrbercan.trabajodadm.databinding.SaleGameItemBinding
 import dadm.jrbercan.trabajodadm.domain.model.Game
+import okhttp3.*
 
 class LastSalesListAdapter(val itemClicked: ItemClicked) :
-    androidx.recyclerview.widget.ListAdapter<Game, LastSalesListAdapter.ViewHolder>(
+    androidx.recyclerview.widget.ListAdapter<SaleGameDto, LastSalesListAdapter.ViewHolder>(
         LastSalesListAdapter.GameDiff
     ) {
     interface ItemClicked {
-        fun onClick(author: String)
+        fun onClick(thumb: String)
     }
 
-    object GameDiff : DiffUtil.ItemCallback<Game>() {
-        override fun areItemsTheSame(oldItem: Game, newItem: Game): Boolean {
+    object GameDiff : DiffUtil.ItemCallback<SaleGameDto>() {
+        override fun areItemsTheSame(oldItem: SaleGameDto, newItem: SaleGameDto): Boolean {
             return (oldItem.title == newItem.title) &&
-                    (oldItem.price == newItem.price)
+                    (oldItem.salePrice == newItem.salePrice)
         }
 
-        override fun areContentsTheSame(oldItem: Game, newItem: Game): Boolean {
+        override fun areContentsTheSame(oldItem: SaleGameDto, newItem: SaleGameDto): Boolean {
             val ancientTitle: String = oldItem.title
             val newTitle: String = newItem.title
             return ancientTitle == newTitle
@@ -35,15 +38,15 @@ class LastSalesListAdapter(val itemClicked: ItemClicked) :
 
     class ViewHolder(val binding: SaleGameItemBinding, callback: ItemClicked) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(game: Game) {
+        fun bind(game: SaleGameDto) {
             binding.tvGameTitle.text = game.title
-            binding.tvGamePrice.text = game.price.toString()
+            binding.tvGamePrice.text = game.salePrice + " $"
+            // binding.imageView.setImageURI(game.thumb.toUri())
         }
 
         init {
             binding.root.setOnClickListener {
-                callback.onClick("Hola")
-                Log.d("Pulsación", binding.tvGameTitle.text.toString())
+                callback.onClick(binding.tvGameTitle.text.toString())
             }
         }
     }
