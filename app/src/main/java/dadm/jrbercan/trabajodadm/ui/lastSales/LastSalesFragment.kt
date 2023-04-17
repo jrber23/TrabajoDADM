@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.SearchView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -15,22 +16,49 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dadm.jrbercan.trabajodadm.R
+import dadm.jrbercan.trabajodadm.data.saleGames.model.SaleGameDto
 import dadm.jrbercan.trabajodadm.databinding.FragmentLastSalesBinding
 import dadm.jrbercan.trabajodadm.ui.favouritesGames.DeleteAllGamesDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.*
 
 
-class LastSalesFragment : Fragment(R.layout.fragment_last_sales) {
+class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavouritesDialogFragment.AddToFavouritesCallback {
     private var _binding: FragmentLastSalesBinding? = null
     private val binding get() = _binding!!
     private val viewModel: LastSalesViewModel by activityViewModels()
     private val callback = object : LastSalesListAdapter.ItemClicked {
         override fun onClick(thumb: String) {
             Log.d("IMAGEN", thumb)
-            AddToFavouritesDialogFragment().show(childFragmentManager, null)
+            //AddToFavouritesDialogFragment().show(childFragmentManager, null)
+        }
+    }
+    /*
+    private val addToFavoritesCallback = object : AddToFavouritesDialogFragment.AddToFavouritesCallback {
+        override fun onFavouriteSelected() {
         }
 
+        override fun onCancelSelected() {
+        }
+    }*/
+
+    private fun onFavoriteClicked(game: SaleGameDto) {
+        Log.d("FAVICON", "Clicked for sale: ${game.title}")
+        //AddToFavouritesDialogFragment().show(childFragmentManager, null)
+        val dialogAddFavFragment = AddToFavouritesDialogFragment()
+        dialogAddFavFragment.callback = this // Set the callback to this LastSalesFragment instance
+        dialogAddFavFragment.show(childFragmentManager, null)
+    }
+
+    override fun onFavouriteSelected() {
+        Log.d("DIALOGSELECTION", "YES")
+        val dialogSetAlertFragment = SetAlertWhenAddingToFavFragment()
+        //dialogSetAlertFragment.callback = this // Set the callback to this LastSalesFragment instance
+        dialogSetAlertFragment.show(childFragmentManager, null)
+    }
+
+    override fun onCancelSelected() {
+        Log.d("DIALOGSELECTION", "NO")
     }
 
     private val itemTouchHelperCallback =
@@ -57,7 +85,7 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLastSalesBinding.bind(view)
 
-        val adapter: LastSalesListAdapter = LastSalesListAdapter(callback)
+        val adapter: LastSalesListAdapter = LastSalesListAdapter(callback, ::onFavoriteClicked)
         binding.lastOffersRecyclerView.adapter = adapter
         viewModel.game.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
@@ -91,6 +119,7 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales) {
 
         getAllSaleGames()
     }
+
 
     fun getAllSaleGames() {
         viewModel.getAllSaleGames()

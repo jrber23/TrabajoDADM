@@ -1,6 +1,7 @@
 package dadm.jrbercan.trabajodadm.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -10,6 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationBarView
 import dadm.jrbercan.trabajodadm.R
 import dadm.jrbercan.trabajodadm.databinding.ActivityMainBinding
+import dadm.jrbercan.trabajodadm.ui.lastSales.AddToFavouritesDialogFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,4 +37,6 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
+
+
 }

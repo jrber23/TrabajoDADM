@@ -1,5 +1,6 @@
 package dadm.jrbercan.trabajodadm.ui.favouritesGames
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,6 +27,24 @@ class FavouritesGamesViewModel : ViewModel() {
     private fun getRandom(min: Int, max: Int): Double {
         require(min < max) { "Invalid range [$min, $max]" }
         return min + Random.nextDouble() * (max - min)
+    }
+
+    fun deleteAllGames(){
+        //Log.d("deleteAllGames", "deleteAllGames pulsado")
+        /*viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                favouritesRepository.deleteAllQuotationsFromDB()
+            }
+        }
+       */
+        _game.value = emptyList()
+    }
+
+    fun deleteGameAtPosition(position: Int){
+        _game.value?.toMutableList()?.apply {
+            removeAt(position)
+            _game.value = this
+        }
     }
 
 

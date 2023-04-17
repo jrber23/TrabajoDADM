@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TrabajoDADM</string>
-    <string name="lastOffers">LAST SALES!!</string>
+    <string name="lastOffers">Latest Offers</string>
     <string name="salesMenuTitle">Sales</string>
     <string name="favouritesMenuTitle">Favourites</string>
     <string name="settingsMenuTitle">Settings</string>
-    <string name="favouritesNavGraph">My Favourite Games</string>
-    <string name="lastSalesNavGraph">Last Sales</string>
+    <string name="favouritesNavGraph">Favourite Games</string>
+    <string name="lastSalesNavGraph">Latest Offers</string>
     <string name="settingsNavGraph">Settings</string>
-    <string name="deleteAllFavourite">Delete all games</string>
+    <string name="deleteAllFavourite">Delete all favourites</string>
     <string name="add_favorite_dialog_title">Add to favourites list</string>
     <string name="add_favorite_dialog_message">Do you want to add this game to your favourite games list?</string>
     <string name="dialog_yes">Yes</string>
@@ -17,4 +17,16 @@
     <string name="delete_all_games_dialog_message">Do you want to delete all games from your favourites list?</string>
     <string name="search_title">Search</string>
     <string name="search_hint">Game title...</string>
+    <string name="set_alert_dialog_title">Set an alert on the game price</string>
+    <string name="set_alert_textview">Set alert price</string>
+    <string name="accept_button">Accept</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="text_description">If there is no input when you press the accept button, the default price alert will be set.</string>
+    <string name="settings_info">Developed by: \n Marcos\n José Ramon\n José David\n Danil\n for the subject DADM 2022-2023</string>
+    <string name="save_button">Save</string>
+    <string name="alert_default_text">Default alert price:</string>
+    <string name="email_default_hint">example@example.com</string>
+    <string name="email_default_text">Email that will receive \nprice alerts:</string>
+    <string name="defaultPriceAlert_hint">Default price: </string>
+    <string name="alert_price_set_toastText">Alert price set: </string>
 </resources>

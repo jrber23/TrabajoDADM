@@ -5,16 +5,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import dadm.jrbercan.trabajodadm.R
 import dadm.jrbercan.trabajodadm.data.saleGames.model.SaleGameDto
 import dadm.jrbercan.trabajodadm.databinding.SaleGameItemBinding
 import dadm.jrbercan.trabajodadm.domain.model.Game
 import okhttp3.*
 
-class LastSalesListAdapter(val itemClicked: ItemClicked) :
+class LastSalesListAdapter(val itemClicked: ItemClicked, private val onFavoriteClicked: (SaleGameDto) -> Unit) :
     androidx.recyclerview.widget.ListAdapter<SaleGameDto, LastSalesListAdapter.ViewHolder>(
         LastSalesListAdapter.GameDiff
     ) {
@@ -62,7 +64,14 @@ class LastSalesListAdapter(val itemClicked: ItemClicked) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        //holder.bind(getItem(position))
+        val sale = getItem(position)
+        holder.bind(sale)
+
+        holder.itemView.findViewById<ImageView>(R.id.iconFavImageView).setOnClickListener {
+            //Log.d("FAVICON", "CLICKED")
+            onFavoriteClicked(getItem(position))
+        }
     }
 
 }

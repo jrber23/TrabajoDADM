@@ -24,28 +24,7 @@ class FavouritesGamesFragment : Fragment(R.layout.fragment_favourites_games) {
         override fun onClick(author: String) {
             Log.d("Pulsacion", "Pulsacion")
         }
-
     }
-
-    private val itemTouchHelperCallback =
-        object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.END) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
-            }
-
-            override fun isLongPressDragEnabled(): Boolean {
-                return false
-            }
-
-        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,6 +34,11 @@ class FavouritesGamesFragment : Fragment(R.layout.fragment_favourites_games) {
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.favourite_games_options, menu)
+            }
+
+            override fun onPrepareMenu(menu: Menu) {
+                // Hide or show the delete_all_favorite menu item based on whether the list is empty or not
+                menu.findItem(R.id.delete_all_favorite)?.isVisible = viewModel.game.value?.isNotEmpty() == true
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -74,6 +58,30 @@ class FavouritesGamesFragment : Fragment(R.layout.fragment_favourites_games) {
         viewModel.game.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
         }
+        val touchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.END) {
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun isLongPressDragEnabled(): Boolean {
+                return false
+            }
+
+            override fun isItemViewSwipeEnabled(): Boolean {
+                return true // Habilitar el gesto de swipe
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = binding.recyclerViewFavorites.getChildAdapterPosition(viewHolder.itemView)
+                viewModel.deleteGameAtPosition(position)
+            }
+        })
+        touchHelper.attachToRecyclerView(binding.recyclerViewFavorites) //  asociar el ItemTouchHelper al RecyclerView y así que responda a los gestos de swipe
     }
 
     override fun onDestroy() {

@@ -6,7 +6,11 @@
     <fragment
         android:id="@+id/favouritesGamesFragment"
         android:name="dadm.jrbercan.trabajodadm.ui.favouritesGames.FavouritesGamesFragment"
-        android:label="@string/favouritesNavGraph" />
+        android:label="@string/favouritesNavGraph" >
+        <action
+            android:id="@+id/action_favouritesGamesFragment_to_deleteAllGamesDialogFragment"
+            app:destination="@id/deleteAllGamesDialogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/lastSalesFragment"
         android:name="dadm.jrbercan.trabajodadm.ui.lastSales.LastSalesFragment"
@@ -15,4 +19,8 @@
         android:id="@+id/settingsFragment"
         android:name="dadm.jrbercan.trabajodadm.ui.settings.SettingsFragment"
         android:label="@string/settingsNavGraph" />
+    <dialog
+        android:id="@+id/deleteAllGamesDialogFragment"
+        android:name="dadm.jrbercan.trabajodadm.ui.favouritesGames.DeleteAllGamesDialogFragment"
+        android:label="DeleteAllGamesDialogFragment" />
 </navigation>
