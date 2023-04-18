@@ -10,16 +10,19 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dadm.jrbercan.trabajodadm.R
 import dadm.jrbercan.trabajodadm.databinding.FragmentFavouritesGamesBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavouritesGamesFragment : Fragment(R.layout.fragment_favourites_games) {
     private var _binding: FragmentFavouritesGamesBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: FavouritesGamesViewModel by activityViewModels()
+    private val viewModel: FavouritesGamesViewModel by viewModels()
     private val callback = object: FavouriteGamesListAdapter.ItemClicked {
         override fun onClick(author: String) {
             Log.d("Pulsacion", "Pulsacion")
@@ -78,7 +81,7 @@ class FavouritesGamesFragment : Fragment(R.layout.fragment_favourites_games) {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = binding.recyclerViewFavorites.getChildAdapterPosition(viewHolder.itemView)
-                viewModel.deleteGameAtPosition(position)
+                // viewModel.deleteGameAtPosition(position)
             }
         })
         touchHelper.attachToRecyclerView(binding.recyclerViewFavorites) //  asociar el ItemTouchHelper al RecyclerView y así que responda a los gestos de swipe

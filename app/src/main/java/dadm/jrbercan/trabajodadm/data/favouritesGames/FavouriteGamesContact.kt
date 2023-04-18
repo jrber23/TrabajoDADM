@@ -11,6 +11,7 @@ object FavouriteGamesContact {
         const val COLUMN_ID = "dealId";
         const val COLUMN_TITLE = "title";
         const val COLUMN_PRICE = "salePrice";
+        const val COLUMN_THUMB = "thumb";
     }
 
 }

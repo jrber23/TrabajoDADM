@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import dadm.jrbercan.trabajodadm.data.favouritesGames.FavouriteGamesContact.TableBD.COLUMN_ID
 import dadm.jrbercan.trabajodadm.data.favouritesGames.FavouriteGamesContact.TableBD.COLUMN_PRICE
+import dadm.jrbercan.trabajodadm.data.favouritesGames.FavouriteGamesContact.TableBD.COLUMN_THUMB
 import dadm.jrbercan.trabajodadm.data.favouritesGames.FavouriteGamesContact.TableBD.COLUMN_TITLE
 import dadm.jrbercan.trabajodadm.data.favouritesGames.FavouriteGamesContact.TableBD.TABLE_NAME
 
@@ -12,5 +13,6 @@ import dadm.jrbercan.trabajodadm.data.favouritesGames.FavouriteGamesContact.Tabl
 data class FavouriteGameDto(
     @PrimaryKey(autoGenerate = false) @ColumnInfo(name = COLUMN_ID) val dealId: String,
     @ColumnInfo(name = COLUMN_TITLE) val title: String,
-    @ColumnInfo(name = COLUMN_PRICE) val salePrice: String
+    @ColumnInfo(name = COLUMN_PRICE) val salePrice: String,
+    @ColumnInfo(name = COLUMN_THUMB) val thumb: String
 )

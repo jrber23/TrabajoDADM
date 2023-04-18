@@ -10,13 +10,15 @@ import dadm.jrbercan.trabajodadm.data.saleGames.SaleGamesApiService
 import dadm.jrbercan.trabajodadm.data.saleGames.model.SaleGameDto
 import dadm.jrbercan.trabajodadm.data.saleGames.model.toDomain
 import dadm.jrbercan.trabajodadm.domain.model.Game
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.random.Random
 
+@HiltViewModel
 class LastSalesViewModel @Inject constructor(
-    private val favouriteGamesRepository: FavouriteGamesRepository
+    /* private val favouriteGamesRepository: FavouriteGamesRepository */
 ) : ViewModel() {
     private val _game : MutableLiveData<List<SaleGameDto>> = MutableLiveData()
     val game : LiveData<List<SaleGameDto>>
@@ -49,11 +51,11 @@ class LastSalesViewModel @Inject constructor(
         }
     }
 
-    fun addToFavourites(position: Int) {
+    /* fun addToFavourites(position: Int) {
         viewModelScope.launch {
             _game.value!![position].let { favouriteGamesRepository.addFavouriteGame(it.toDomain()) }
         }
-    }
+    } */
 
     private fun getRandom(min: Int, max: Int): Double {
         require(min < max) { "Invalid range [$min, $max]" }

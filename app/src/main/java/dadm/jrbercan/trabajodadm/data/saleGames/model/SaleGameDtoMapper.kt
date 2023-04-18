@@ -5,4 +5,4 @@ import dadm.jrbercan.trabajodadm.domain.model.Game
 
 fun SaleGameDto.toDomain() : Game = Game(id = dealID, title = title, price = salePrice)
 
-fun Game.toDto() : SaleGameDto = SaleGameDto(dealID = id, title = title, salePrice = price)
+// fun Game.toDto() : SaleGameDto = SaleGameDto(dealID = id, title = title, salePrice = price)

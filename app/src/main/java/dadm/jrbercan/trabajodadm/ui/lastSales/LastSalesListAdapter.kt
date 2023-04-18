@@ -10,6 +10,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import dadm.jrbercan.trabajodadm.R
 import dadm.jrbercan.trabajodadm.data.saleGames.model.SaleGameDto
 import dadm.jrbercan.trabajodadm.databinding.SaleGameItemBinding
@@ -43,6 +44,12 @@ class LastSalesListAdapter(val itemClicked: ItemClicked, private val onFavoriteC
         fun bind(game: SaleGameDto) {
             binding.tvGameTitle.text = game.title
             binding.tvGamePrice.text = game.salePrice + " $"
+
+            Glide.
+                with(binding.imageView)
+                .load(game.thumb)
+                .placeholder(R.drawable.ic_launcher_background)
+                .into(binding.imageView)
         }
 
         init {

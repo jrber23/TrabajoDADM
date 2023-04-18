@@ -12,7 +12,9 @@ import com.google.android.material.navigation.NavigationBarView
 import dadm.jrbercan.trabajodadm.R
 import dadm.jrbercan.trabajodadm.databinding.ActivityMainBinding
 import dadm.jrbercan.trabajodadm.ui.lastSales.AddToFavouritesDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController

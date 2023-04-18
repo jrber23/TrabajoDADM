@@ -18,8 +18,9 @@ import dadm.jrbercan.trabajodadm.R
 import dadm.jrbercan.trabajodadm.data.saleGames.model.SaleGameDto
 import dadm.jrbercan.trabajodadm.databinding.FragmentLastSalesBinding
 import dadm.jrbercan.trabajodadm.ui.favouritesGames.DeleteAllGamesDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavouritesDialogFragment.AddToFavouritesCallback {
     private var _binding: FragmentLastSalesBinding? = null
     private val binding get() = _binding!!
