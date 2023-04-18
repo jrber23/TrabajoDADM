@@ -4,11 +4,18 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dadm.jrbercan.trabajodadm.data.favouritesGames.FavouriteGamesRepository
+import dadm.jrbercan.trabajodadm.data.favouritesGames.model.FavouriteGameDto
 import dadm.jrbercan.trabajodadm.domain.model.Game
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.random.Random
 
-class FavouritesGamesViewModel : ViewModel() {
-    private val _game : MutableLiveData<List<Game>> = getFavouriteGames()
+class FavouritesGamesViewModel @Inject constructor(
+    private val favouriteGamesRepository: FavouriteGamesRepository
+) : ViewModel() {
+    private val _game : MutableLiveData<List<Game>> = MutableLiveData()
     val game : LiveData<List<Game>>
         get() =_game
 
@@ -46,6 +53,8 @@ class FavouritesGamesViewModel : ViewModel() {
             _game.value = this
         }
     }
+
+
 
 
 }

@@ -21,7 +21,7 @@ class LastSalesListAdapter(val itemClicked: ItemClicked, private val onFavoriteC
         LastSalesListAdapter.GameDiff
     ) {
     interface ItemClicked {
-        fun onClick(thumb: String)
+        fun onClick(position: Int)
     }
 
     object GameDiff : DiffUtil.ItemCallback<SaleGameDto>() {
@@ -43,12 +43,11 @@ class LastSalesListAdapter(val itemClicked: ItemClicked, private val onFavoriteC
         fun bind(game: SaleGameDto) {
             binding.tvGameTitle.text = game.title
             binding.tvGamePrice.text = game.salePrice + " $"
-            // binding.imageView.setImageURI(game.thumb.toUri())
         }
 
         init {
             binding.root.setOnClickListener {
-                callback.onClick(binding.tvGameTitle.text.toString())
+
             }
         }
     }
@@ -69,7 +68,6 @@ class LastSalesListAdapter(val itemClicked: ItemClicked, private val onFavoriteC
         holder.bind(sale)
 
         holder.itemView.findViewById<ImageView>(R.id.iconFavImageView).setOnClickListener {
-            //Log.d("FAVICON", "CLICKED")
             onFavoriteClicked(getItem(position))
         }
     }

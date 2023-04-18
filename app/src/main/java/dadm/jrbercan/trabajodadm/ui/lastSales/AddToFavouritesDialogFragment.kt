@@ -36,7 +36,7 @@ class AddToFavouritesDialogFragment() : DialogFragment(R.layout.fragment_last_sa
         if (context is AddToFavouritesCallback) {
             callback = context
         } else {
-            //throw RuntimeException("$context must implement AddToFavouritesCallback")
+
         }
     }
 
