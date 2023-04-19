@@ -31,4 +31,5 @@
     <string name="alert_price_set_toastText">"Alerta establecida en precio: "</string>
     <string name="no_game_description">Descripción no disponible para este juego.</string>
     <string name="all_deals">Todas las ofertas para este juego</string>
+    <string name="free_sale">GRATIS</string>
 </resources>

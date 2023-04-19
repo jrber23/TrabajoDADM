@@ -30,4 +30,5 @@
     <string name="alert_price_set_toastText">Alert price set: </string>
     <string name="no_game_description">No description available for this game.</string>
     <string name="all_deals">All deals for this game</string>
+    <string name="free_sale">FREE</string>
 </resources>

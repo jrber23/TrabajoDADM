@@ -44,7 +44,8 @@ class LastSalesListAdapter(val itemClicked: ItemClicked, private val onFavoriteC
         RecyclerView.ViewHolder(binding.root) {
         fun bind(game: SaleGameDto) {
             binding.tvGameTitle.text = game.title
-            binding.tvGamePrice.text = game.salePrice + " $"
+            if (game.salePrice == "0.00") { binding.tvGamePrice.text = binding.tvGamePrice.context.getString(R.string.free_sale) }
+            else { binding.tvGamePrice.text = game.salePrice + " $" }
 
             Glide.
                 with(binding.imageView.context)

@@ -22,12 +22,9 @@ class MoreGameInfoListAdapter(private val gameDeals: List<GameDeals>):
 
     }
 
-    private var context: Context? = null
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.game_deals_item, parent, false)
-        context = parent.context
         return ViewHolder(view)
     }
 
@@ -36,13 +33,13 @@ class MoreGameInfoListAdapter(private val gameDeals: List<GameDeals>):
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = gameDeals[position]
         holder.name.text = currentItem.name
-        holder.price.text = currentItem.price
+        if (currentItem.price == "0.00 $") { holder.price.text = holder.price.context.getString(R.string.free_sale) }
+        else { holder.price.text = currentItem.price }
         Glide.
         with(holder.logo.context)
             .load("https://www.cheapshark.com/" + currentItem.image)
             .placeholder(R.drawable.ic_launcher_background)
             .into(holder.logo)
-        //Glide.with(context).load(currentItem.image).into(holder.logo)
     }
 
     override fun getItemCount(): Int {
