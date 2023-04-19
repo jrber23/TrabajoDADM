@@ -1,5 +1,6 @@
 package dadm.jrbercan.trabajodadm.ui.lastSales
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -19,6 +20,7 @@ import dadm.jrbercan.trabajodadm.data.favouritesGames.model.FavouriteGameDto
 import dadm.jrbercan.trabajodadm.data.saleGames.model.SaleGameDto
 import dadm.jrbercan.trabajodadm.databinding.FragmentLastSalesBinding
 import dadm.jrbercan.trabajodadm.ui.favouritesGames.DeleteAllGamesDialogFragment
+import dadm.jrbercan.trabajodadm.ui.moreGameInfo.MoreGameInfoActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -46,6 +48,16 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavourit
 
     }
 
+    private fun onGameClicked(game: SaleGameDto) {
+        //Log.d("GAME INFO","ID: ${game.gameID}.")
+        val intent = Intent(context,MoreGameInfoActivity::class.java)
+            .putExtra("GAME_TITLE",game.title)
+            .putExtra("GAME_ID",game.gameID)
+            .putExtra("GAME_STEAM_ID",game.steamAppID)
+            .putExtra("GAME_THUMB",game.thumb)
+        startActivity(intent)
+    }
+
     private fun onFavoriteClicked(game: SaleGameDto) {
         val dialogAddFavFragment = AddToFavouritesDialogFragment()
         dialogAddFavFragment.callback = this // Set the callback to this LastSalesFragment instance
@@ -56,6 +68,7 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavourit
         val dialogSetAlertFragment = SetAlertWhenAddingToFavFragment()
         dialogSetAlertFragment.show(childFragmentManager, null)
     }
+
 
     override fun onCancelSelected() {
         Log.d("DIALOGSELECTION", "NO")
@@ -85,7 +98,7 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavourit
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLastSalesBinding.bind(view)
 
-        val adapter: LastSalesListAdapter = LastSalesListAdapter(callback, ::onFavoriteClicked)
+        val adapter: LastSalesListAdapter = LastSalesListAdapter(callback, ::onFavoriteClicked, ::onGameClicked)
         binding.lastOffersRecyclerView.adapter = adapter
         viewModel.game.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)

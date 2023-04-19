@@ -10,6 +10,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -21,6 +22,7 @@ class SaleGameProviderModule {
     fun provideConnectivityManager(@ApplicationContext context: Context): ConnectivityManager =
         context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
 
+    @Named("CheapShark")
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit =

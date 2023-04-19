@@ -22,7 +22,7 @@
     <string name="accept_button">Accept</string>
     <string name="cancel_button">Cancel</string>
     <string name="text_description">If there is no input when you press the accept button, the default price alert will be set.</string>
-    <string name="settings_info">Developed by: \n Marcos\n José Ramon\n José David\n Danil\n for the subject DADM 2022-2023</string>
+    <string name="settings_info">Developed by: \n Marcos\n José Ramon\n José David\n Daniil\n for the subject DADM 2022-2023</string>
     <string name="save_button">Save</string>
     <string name="alert_default_text">Default alert price:</string>
     <string name="email_default_hint">example@example.com</string>

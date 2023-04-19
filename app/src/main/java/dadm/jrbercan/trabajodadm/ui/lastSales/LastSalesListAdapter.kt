@@ -18,7 +18,7 @@ import dadm.jrbercan.trabajodadm.databinding.SaleGameItemBinding
 import dadm.jrbercan.trabajodadm.domain.model.Game
 import okhttp3.*
 
-class LastSalesListAdapter(val itemClicked: ItemClicked, private val onFavoriteClicked: (SaleGameDto) -> Unit) :
+class LastSalesListAdapter(val itemClicked: ItemClicked, private val onFavoriteClicked: (SaleGameDto) -> Unit, private val onGameClicked: (SaleGameDto) -> Unit) :
     androidx.recyclerview.widget.ListAdapter<SaleGameDto, LastSalesListAdapter.ViewHolder>(
         LastSalesListAdapter.GameDiff
     ) {
@@ -47,7 +47,7 @@ class LastSalesListAdapter(val itemClicked: ItemClicked, private val onFavoriteC
             binding.tvGamePrice.text = game.salePrice + " $"
 
             Glide.
-                with(binding.imageView)
+                with(binding.imageView.context)
                 .load(game.thumb)
                 .placeholder(R.drawable.ic_launcher_background)
                 .into(binding.imageView)
@@ -77,6 +77,10 @@ class LastSalesListAdapter(val itemClicked: ItemClicked, private val onFavoriteC
 
         holder.itemView.findViewById<ImageView>(R.id.iconFavImageView).setOnClickListener {
             onFavoriteClicked(getItem(position))
+        }
+
+        holder.itemView.setOnClickListener {
+            onGameClicked(getItem(position))
         }
     }
 

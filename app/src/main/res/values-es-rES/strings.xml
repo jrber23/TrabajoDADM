@@ -22,11 +22,13 @@
     <string name="accept_button">Aceptar</string>
     <string name="cancel_button">Cancelar</string>
     <string name="text_description">Si no se introduce un precio se establecerá una alerta con el precio por defecto.</string>
-    <string name="settings_info">Desarrollado por: \n Marcos\n José Ramon\n José David\n Danil\n para la asignatura DADM 2022-2023</string>
+    <string name="settings_info">Desarrollado por: \n Marcos\n José Ramon\n José David\n Daniil\n para la asignatura DADM 2022-2023</string>
     <string name="save_button">Guardar</string>
     <string name="alert_default_text">Precio por defecto para la alerta:</string>
     <string name="email_default_hint">ejemplo@ejemplo.com</string>
     <string name="email_default_text">Correo que recibirá las\nnotificaciones de alerta:</string>
     <string name="defaultPriceAlert_hint">"Precio por defecto: "</string>
     <string name="alert_price_set_toastText">"Alerta establecida en precio: "</string>
+    <string name="no_game_description">Descripción no disponible para este juego.</string>
+    <string name="all_deals">Todas las ofertas para este juego</string>
 </resources>
