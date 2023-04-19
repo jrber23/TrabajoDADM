@@ -6,6 +6,7 @@ import dadm.jrbercan.trabajodadm.data.saleGames.model.SaleGameDto
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 object SaleGamesApiService {
     private const val BASE_URL =
@@ -24,6 +25,9 @@ object SaleGamesApiService {
 
         @GET("deals?format=json")
         suspend fun getAllSaleGames(): List<SaleGameDto>
+
+        @GET("deals?format=json&exact=0")
+        suspend fun getGamesByTitle(@Query("title") title: String?): List<SaleGameDto>
     }
 
     object SaleGamesApi {

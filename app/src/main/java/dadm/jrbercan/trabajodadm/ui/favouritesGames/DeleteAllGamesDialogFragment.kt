@@ -19,7 +19,7 @@ class DeleteAllGamesDialogFragment(): DialogFragment(R.layout.fragment_favourite
             .setMessage(R.string.delete_all_games_dialog_message)
             .setPositiveButton(R.string.dialog_yes) {_,_ ->
                 Log.d("DELETE", "ALL DELETED")
-                // viewModel.deleteAllGames()
+                viewModel.deleteAllFavouriteGames()
             }
             .setNegativeButton(R.string.dialog_no) { _,_ ->
                 dismiss()

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import dadm.jrbercan.trabajodadm.R
+import dadm.jrbercan.trabajodadm.data.favouritesGames.model.FavouriteGameDto
 import dadm.jrbercan.trabajodadm.data.saleGames.model.SaleGameDto
 import dadm.jrbercan.trabajodadm.databinding.SaleGameItemBinding
 import dadm.jrbercan.trabajodadm.domain.model.Game
@@ -22,7 +23,7 @@ class LastSalesListAdapter(val itemClicked: ItemClicked, private val onFavoriteC
         LastSalesListAdapter.GameDiff
     ) {
     interface ItemClicked {
-        fun onClick(position: Int)
+        fun onClick(game: FavouriteGameDto)
     }
 
     object GameDiff : DiffUtil.ItemCallback<SaleGameDto>() {

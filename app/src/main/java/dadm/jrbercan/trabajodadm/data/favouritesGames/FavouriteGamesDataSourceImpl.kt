@@ -6,10 +6,13 @@ import javax.inject.Inject
 
 class FavouriteGamesDataSourceImpl @Inject constructor(private val favouriteGamesDao: FavouriteGamesDao) :
     FavouriteGamesDataSource {
-    /* override suspend fun addFavouriteGame(game: FavouriteGameDto) {
+    override suspend fun addFavouriteGame(game: FavouriteGameDto) {
         favouriteGamesDao.addFavouriteGame(game)
-    } */
-
+    }
     override fun getAllFavouriteGames(): Flow<List<FavouriteGameDto>> =
         favouriteGamesDao.getAllFavouriteGames()
+
+    override suspend fun deleteAllFavouritesGames() {
+        favouriteGamesDao.deleteAllFavouriteGames()
+    }
 }

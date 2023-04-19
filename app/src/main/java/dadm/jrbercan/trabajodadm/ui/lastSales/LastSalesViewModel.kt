@@ -17,9 +17,7 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class LastSalesViewModel @Inject constructor(
-    /* private val favouriteGamesRepository: FavouriteGamesRepository */
-) : ViewModel() {
+class LastSalesViewModel @Inject constructor() : ViewModel() {
     private val _game : MutableLiveData<List<SaleGameDto>> = MutableLiveData()
     val game : LiveData<List<SaleGameDto>>
         get() =_game
@@ -51,11 +49,22 @@ class LastSalesViewModel @Inject constructor(
         }
     }
 
-    /* fun addToFavourites(position: Int) {
-        viewModelScope.launch {
-            _game.value!![position].let { favouriteGamesRepository.addFavouriteGame(it.toDomain()) }
+    fun getGamesByTitle(title: String?) {
+        viewModelScope.launch(CoroutineName("GetGamesByTitleFunction")) {
+            try {
+                val listResult = SaleGamesApiService.SaleGamesApi.retrofitService.getGamesByTitle(title)
+                _game.value = listResult
+            } catch (e: Exception) {
+                Log.d("FAILURE", e.toString())
+            }
         }
-    } */
+    }
+
+    fun addToFavourites() {
+        viewModelScope.launch(CoroutineName("AddToFavouritesGamesMethod")) {
+
+        }
+    }
 
     private fun getRandom(min: Int, max: Int): Double {
         require(min < max) { "Invalid range [$min, $max]" }

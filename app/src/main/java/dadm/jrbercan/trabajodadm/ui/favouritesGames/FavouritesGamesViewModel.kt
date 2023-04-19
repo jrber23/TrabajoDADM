@@ -13,11 +13,9 @@ import kotlin.random.Random
 
 @HiltViewModel
 class FavouritesGamesViewModel @Inject constructor(
-    favouriteGamesRepository: FavouriteGamesRepository
+    private val favouriteGamesRepository: FavouriteGamesRepository
 ) : ViewModel() {
-    // private val _game : MutableLiveData<List<FavouriteGameDto>> = getFavouriteGames()
     val game : LiveData<List<FavouriteGameDto>> = favouriteGamesRepository.getAllFavouriteGames().asLiveData()
-        // get() =_game
 
     private fun getFavouriteGames(): MutableLiveData<List<FavouriteGameDto>> {
         val list: ArrayList<FavouriteGameDto> = ArrayList(10)
@@ -36,25 +34,16 @@ class FavouritesGamesViewModel @Inject constructor(
         return min + Random.nextDouble() * (max - min)
     }
 
-    /* fun deleteAllGames(){
-        //Log.d("deleteAllGames", "deleteAllGames pulsado")
-        /*viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                favouritesRepository.deleteAllQuotationsFromDB()
-            }
+    fun deleteAllFavouriteGames(){
+        viewModelScope.launch {
+            favouriteGamesRepository.deleteAllFavouriteGames()
         }
-
-        _game.value = emptyList() */
     }
 
-    fun deleteGameAtPosition(position: Int){
-        /* _game.value?.toMutableList()?.apply {
+    /* fun deleteGameAtPosition(position: Int){
+        _game.value?.toMutableList()?.apply {
             removeAt(position)
             _game.value = this
-        } */
+        }
     } */
-
-
-
-
 }

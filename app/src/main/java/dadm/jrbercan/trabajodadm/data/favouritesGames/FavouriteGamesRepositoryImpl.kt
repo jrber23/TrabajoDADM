@@ -7,10 +7,14 @@ import javax.inject.Inject
 
 class FavouriteGamesRepositoryImpl @Inject constructor(private val favouriteGamesDataSource: FavouriteGamesDataSource) :
     FavouriteGamesRepository {
-    /* override suspend fun addFavouriteGame(game: FavouriteGameDto) {
+    override suspend fun addFavouriteGame(game: FavouriteGameDto) {
         favouriteGamesDataSource.addFavouriteGame(game)
-    } */
+    }
 
     override fun getAllFavouriteGames(): Flow<List<FavouriteGameDto>> =
         favouriteGamesDataSource.getAllFavouriteGames()
+
+    override suspend fun deleteAllFavouriteGames() {
+        favouriteGamesDataSource.deleteAllFavouritesGames()
+    }
 }

@@ -15,6 +15,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dadm.jrbercan.trabajodadm.R
+import dadm.jrbercan.trabajodadm.data.favouritesGames.model.FavouriteGameDto
 import dadm.jrbercan.trabajodadm.data.saleGames.model.SaleGameDto
 import dadm.jrbercan.trabajodadm.databinding.FragmentLastSalesBinding
 import dadm.jrbercan.trabajodadm.ui.favouritesGames.DeleteAllGamesDialogFragment
@@ -27,7 +28,7 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavourit
     private val viewModel: LastSalesViewModel by activityViewModels()
     private val callback = object : LastSalesListAdapter.ItemClicked {
 
-        override fun onClick(position: Int) {
+        override fun onClick(game: FavouriteGameDto) {
 
         }
 
@@ -91,35 +92,40 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavourit
         }
 
         val menuHost : MenuHost = requireActivity()
-        menuHost.addMenuProvider(object : MenuProvider, SearchView.OnQueryTextListener {
+        menuHost.addMenuProvider(object : MenuProvider{
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.last_sales_options, menu)
+
+                val buscar = menu?.findItem(R.id.search)
+                val searchView = buscar?.actionView as SearchView
+
+                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        return false
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        newText?.let {
+                            getGameByTitle(newText)
+                        }
+                        return false
+                    }
+                })
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return when (menuItem.itemId) {
-                    R.id.delete_all_favorite -> {
-                        DeleteAllGamesDialogFragment().show(childFragmentManager, null)
-                        true
-                    }
-                    else -> false
-                }
-            }
-
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return true
+                return false
             }
 
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-        getAllSaleGames()
     }
 
-
+    fun addToFavourites() {
+        viewModel.addToFavourites()
+    }
+    fun getGameByTitle(title: String?) {
+        viewModel.getGamesByTitle(title)
+    }
     fun getAllSaleGames() {
         viewModel.getAllSaleGames()
     }
