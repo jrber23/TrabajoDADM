@@ -114,13 +114,13 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavourit
 
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
+                        query?.let {
+                            getGameByTitle(query)
+                        }
                         return false
                     }
 
                     override fun onQueryTextChange(newText: String?): Boolean {
-                        newText?.let {
-                            getGameByTitle(newText)
-                        }
                         return false
                     }
                 })
