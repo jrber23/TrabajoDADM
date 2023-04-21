@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import dadm.jrbercan.trabajodadm.R
+import dadm.jrbercan.trabajodadm.data.moreGameInfo.model.SteamGameDto
 import dadm.jrbercan.trabajodadm.databinding.MoreGameInfoActivityBinding
 import dadm.jrbercan.trabajodadm.domain.model.GameDeals
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +25,7 @@ class MoreGameInfoActivity: AppCompatActivity() {
     private val viewModel: MoreGameInfoViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var moreGameInfoListAdapter: MoreGameInfoListAdapter
+    private lateinit var actualGame: SteamGameDto
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = MoreGameInfoActivityBinding.inflate(layoutInflater)
@@ -45,14 +47,13 @@ class MoreGameInfoActivity: AppCompatActivity() {
         viewModel.gameDealsWithStoreName.observe(this){list ->
             moreGameInfoListAdapter = MoreGameInfoListAdapter(list)
             recyclerView.adapter = moreGameInfoListAdapter
+            recyclerView.layoutParams.height = getTotalHeightofRecyclerView(recyclerView) //(quitar si se ralentiza significativamente la aplicación)
         }
 
-
-        if (steamId != "") {
+        if (steamId != "") { // CASO: EL JUEGO CLICADO TIENE steamId
             viewModel.steamGame.observe(this@MoreGameInfoActivity) {steamGame ->
-                //val descriptionWithORC = Html.fromHtml(Html.fromHtml(steamGame.data.data.detailed_description).toString()).toString() //SE ELIMINAN LAS TAGS HTML DE LA DESCRIPCION DETALLADA
-                //val descriptionWithoutORC = descriptionWithORC.replace("\uFFFC", "") //SE ELIMINA EL CARACTER Object Replacement Character
-                //binding.gameDescriptionSteam.text = descriptionWithoutORC
+                actualGame = steamGame
+                binding.moreLessDetails.text = getString(R.string.more_details)
                 binding.gameDescriptionSteam.text = steamGame.data.data.short_description
                 binding.gameDescriptionNoSteam.visibility = View.INVISIBLE
                 Glide.with(applicationContext).load(steamGame.data.data.header_image).into(binding.gameLogoSteam)
@@ -62,7 +63,8 @@ class MoreGameInfoActivity: AppCompatActivity() {
             }
             viewModel.getGameInfo(steamId)
         }
-        else {
+        else { // CASO: EL JUEGO NO TIENE steamId
+            binding.moreLessDetails.visibility = View.INVISIBLE
             binding.gameDescriptionNoSteam.text = getString(R.string.no_game_description)
             binding.gameDescriptionSteam.visibility = View.INVISIBLE
             Glide.with(applicationContext).load(thumb).into(binding.gameLogoNoSteam)
@@ -70,5 +72,34 @@ class MoreGameInfoActivity: AppCompatActivity() {
             binding.gameTitleSteam.visibility = View.INVISIBLE
             binding.gameTitleNoSteam.text = title
         }
+
+        // ALTERNAR OFRECER MAYOR O MENOR DESCRIPCION DE UN JUEGO
+        binding.moreLessDetails.setOnClickListener {
+            if (binding.moreLessDetails.text == getString(R.string.more_details)) {
+                val descriptionWithORC = Html.fromHtml(Html.fromHtml(actualGame.data.data.detailed_description).toString()).toString() //SE ELIMINAN LAS TAGS HTML DE LA DESCRIPCION DETALLADA
+                val descriptionWithoutORC = descriptionWithORC.replace("\uFFFC", "") //SE ELIMINA EL CARACTER Object Replacement Character
+                binding.gameDescriptionSteam.text = descriptionWithoutORC
+                binding.moreLessDetails.text = getString(R.string.less_details)
+            }
+            else {
+                binding.gameDescriptionSteam.text = actualGame.data.data.short_description
+                binding.moreLessDetails.text = getString(R.string.more_details)
+            }
+        }
     }
+
+    //FUNCION QUE CALCULA LA ALTURA TOTAL DEL RECYCLERVIEW (quitar si se ralentiza significativamente la aplicación)
+    private fun getTotalHeightofRecyclerView(recyclerView: RecyclerView): Int {
+        val adapter = recyclerView.adapter
+        val itemCount = adapter?.itemCount ?: 0
+        var totalHeight = 0
+        for (i in 0 until itemCount) {
+            val view = adapter?.createViewHolder(recyclerView, adapter.getItemViewType(i))?.itemView
+            view?.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
+            totalHeight += view?.measuredHeight ?: 0
+        }
+        return totalHeight
+    }
+
 }

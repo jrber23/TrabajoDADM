@@ -31,4 +31,6 @@
     <string name="no_game_description">No description available for this game.</string>
     <string name="all_deals">All deals for this game</string>
     <string name="free_sale">FREE</string>
+    <string name="more_details">More details</string>
+    <string name="less_details">Less details</string>
 </resources>
