@@ -2,6 +2,7 @@ package dadm.jrbercan.trabajodadm.data.saleGames
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import dadm.jrbercan.trabajodadm.data.saleGames.model.GameOfList
 import dadm.jrbercan.trabajodadm.data.saleGames.model.SaleGameDto
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -26,8 +27,8 @@ object SaleGamesApiService {
         @GET("deals?format=json")
         suspend fun getAllSaleGames(): List<SaleGameDto>
 
-        @GET("deals?format=json&exact=0")
-        suspend fun getGamesByTitle(@Query("title") title: String?): List<SaleGameDto>
+        @GET("games?exact=0")
+        suspend fun getGamesByTitle(@Query("title") title: String?): List<GameOfList>
     }
 
     object SaleGamesApi {

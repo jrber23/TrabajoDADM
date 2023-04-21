@@ -53,7 +53,11 @@ class LastSalesViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(CoroutineName("GetGamesByTitleFunction")) {
             try {
                 val listResult = SaleGamesApiService.SaleGamesApi.retrofitService.getGamesByTitle(title)
-                _game.value = listResult
+                val gameOfListtoGame = mutableListOf<SaleGameDto>()
+                for (game in listResult) {
+                    gameOfListtoGame.add(SaleGameDto(game.cheapestDealID,game.external,game.cheapest,game.thumb,game.gameID,game.steamAppID))
+                }
+                _game.value = gameOfListtoGame
             } catch (e: Exception) {
                 Log.d("FAILURE", e.toString())
             }
