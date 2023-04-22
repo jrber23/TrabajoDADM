@@ -46,7 +46,6 @@ class MoreGameInfoViewModel @Inject constructor(private val moreGameInfoReposito
                         }
                     }
                 }
-                //for (item in lista) { Log.d("LISTA:","URL: ${item.image}, NAME: ${item.name}, PRICE: ${item.price}") }
                 _gameDealsWithStoreName.value = lista
             } catch (e: Exception) {
                 Log.d("FAILURE IN getGameDeals()", e.toString())
@@ -54,10 +53,10 @@ class MoreGameInfoViewModel @Inject constructor(private val moreGameInfoReposito
         }
     }
 
-    fun getGameInfo(number: String) {
+    fun getGameInfo(number: String, language: String) {
         viewModelScope.launch(CoroutineName("GetMoreGameInfoFunction")) {
             try {
-                moreGameInfoRepository.getSteamInfo(number).fold(onSuccess = {_steamGame.value = it}, onFailure = { })
+                moreGameInfoRepository.getSteamInfo(number,language).fold(onSuccess = {_steamGame.value = it}, onFailure = { })
             } catch (e: Exception) {
                 Log.d("FAILURE IN getGameInfo()", e.toString())
             }

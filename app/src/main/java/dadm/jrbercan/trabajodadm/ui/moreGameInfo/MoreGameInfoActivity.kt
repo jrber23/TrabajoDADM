@@ -2,6 +2,7 @@ package dadm.jrbercan.trabajodadm.ui.moreGameInfo
 
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -52,37 +53,37 @@ class MoreGameInfoActivity: AppCompatActivity() {
 
         if (steamId != "") { // CASO: EL JUEGO CLICADO TIENE steamId
             viewModel.steamGame.observe(this@MoreGameInfoActivity) {steamGame ->
-                actualGame = steamGame
-                binding.moreLessDetails.text = getString(R.string.more_details)
-                binding.gameDescriptionSteam.text = steamGame.data.data.short_description
-                binding.gameDescriptionNoSteam.visibility = View.INVISIBLE
-                Glide.with(applicationContext).load(steamGame.data.data.header_image).into(binding.gameLogoSteam)
-                binding.gameLogoNoSteam.visibility = View.INVISIBLE
-                binding.gameTitleSteam.text = steamGame.data.data.name
-                binding.gameTitleNoSteam.visibility = View.INVISIBLE
+                if (steamGame.data.data == null) { caseNoSteamId(binding,thumb,title) } //CASO: LA API NO DEVUELVE INFORMACION SOBRE EL JUEGO
+                else { //CASO: LA API DEVUELVE INFORMACION SOBRE EL JUEGO
+                    actualGame = steamGame
+                    binding.moreLessDetails.text = getString(R.string.more_details)
+                    val shortDescription = Html.fromHtml(actualGame.data.data!!.short_description, Html.FROM_HTML_MODE_LEGACY).toString()
+                    binding.gameDescriptionSteam.text = shortDescription
+                    binding.gameDescriptionNoSteam.visibility = View.INVISIBLE
+                    Glide.with(applicationContext).load(steamGame.data.data.header_image).into(binding.gameLogoSteam)
+                    binding.gameLogoNoSteam.visibility = View.INVISIBLE
+                    binding.gameTitleSteam.text = steamGame.data.data.name
+                    binding.gameTitleNoSteam.visibility = View.INVISIBLE
+                }
             }
-            viewModel.getGameInfo(steamId)
+            val language: String = resources.configuration.locales.get(0).language
+            viewModel.getGameInfo(steamId,language)
         }
-        else { // CASO: EL JUEGO NO TIENE steamId
-            binding.moreLessDetails.visibility = View.INVISIBLE
-            binding.gameDescriptionNoSteam.text = getString(R.string.no_game_description)
-            binding.gameDescriptionSteam.visibility = View.INVISIBLE
-            Glide.with(applicationContext).load(thumb).into(binding.gameLogoNoSteam)
-            binding.gameLogoSteam.visibility = View.INVISIBLE
-            binding.gameTitleSteam.visibility = View.INVISIBLE
-            binding.gameTitleNoSteam.text = title
+        else { // CASO: EL JUEGO CLICADO NO TIENE steamId
+            caseNoSteamId(binding, thumb,title)
         }
 
         // ALTERNAR OFRECER MAYOR O MENOR DESCRIPCION DE UN JUEGO
         binding.moreLessDetails.setOnClickListener {
             if (binding.moreLessDetails.text == getString(R.string.more_details)) {
-                val descriptionWithORC = Html.fromHtml(Html.fromHtml(actualGame.data.data.detailed_description).toString()).toString() //SE ELIMINAN LAS TAGS HTML DE LA DESCRIPCION DETALLADA
+                val descriptionWithORC = Html.fromHtml(Html.fromHtml(actualGame.data.data!!.detailed_description).toString()).toString() //SE ELIMINAN LAS TAGS HTML DE LA DESCRIPCION DETALLADA
                 val descriptionWithoutORC = descriptionWithORC.replace("\uFFFC", "") //SE ELIMINA EL CARACTER Object Replacement Character
                 binding.gameDescriptionSteam.text = descriptionWithoutORC
                 binding.moreLessDetails.text = getString(R.string.less_details)
             }
             else {
-                binding.gameDescriptionSteam.text = actualGame.data.data.short_description
+                val shortDescription = Html.fromHtml(actualGame.data.data!!.short_description, Html.FROM_HTML_MODE_LEGACY).toString()
+                binding.gameDescriptionSteam.text = shortDescription
                 binding.moreLessDetails.text = getString(R.string.more_details)
             }
         }
@@ -100,6 +101,17 @@ class MoreGameInfoActivity: AppCompatActivity() {
             totalHeight += view?.measuredHeight ?: 0
         }
         return totalHeight
+    }
+
+    //FUNCION QUE MODIFICA EL LAYOUT DE LA ACTIVIDAD SI EL PARAMETRO steamId ESTA VACIO
+    private fun caseNoSteamId(binding: MoreGameInfoActivityBinding, thumb: String, title: String) {
+        binding.moreLessDetails.visibility = View.INVISIBLE
+        binding.gameDescriptionNoSteam.text = getString(R.string.no_game_description)
+        binding.gameDescriptionSteam.visibility = View.INVISIBLE
+        Glide.with(applicationContext).load(thumb).into(binding.gameLogoNoSteam)
+        binding.gameLogoSteam.visibility = View.INVISIBLE
+        binding.gameTitleSteam.visibility = View.INVISIBLE
+        binding.gameTitleNoSteam.text = title
     }
 
 }

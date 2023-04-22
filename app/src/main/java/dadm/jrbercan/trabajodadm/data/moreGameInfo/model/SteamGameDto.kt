@@ -9,7 +9,7 @@ data class SteamGameDto(
 
 @JsonClass(generateAdapter = true)
 data class IdSteam(
-    val data: Data
+    val data: Data?=null
 )
 
 @JsonClass(generateAdapter = true)

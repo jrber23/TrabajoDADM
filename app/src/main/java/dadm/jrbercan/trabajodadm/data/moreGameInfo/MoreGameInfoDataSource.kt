@@ -8,6 +8,6 @@ import retrofit2.http.Query
 
 interface MoreGameInfoDataSource {
     suspend fun getAllShops(): Response<List<ShopsDto>>
-    suspend fun getSteamInfo(number: String): Response<SteamGameDto>
+    suspend fun getSteamInfo(number: String, language: String): Response<SteamGameDto>
     suspend fun getGameDeals(number: String): Response<GameDealsDto>
 }

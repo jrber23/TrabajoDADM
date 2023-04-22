@@ -13,8 +13,8 @@ class MoreGameInfoRepositoryImpl @Inject constructor(private val retrofitDataSou
         else return Result.failure(NoInternetException())
     }
 
-    override suspend fun getSteamInfo(number: String): Result<SteamGameDto> {
-        if (connectivityChecker.isConnectionAvailable()) return retrofitDataSource.getSteamInfo(number).toDomain()
+    override suspend fun getSteamInfo(number: String, language: String): Result<SteamGameDto> {
+        if (connectivityChecker.isConnectionAvailable()) return retrofitDataSource.getSteamInfo(number,language).toDomain()
         else return Result.failure(NoInternetException())
     }
 
