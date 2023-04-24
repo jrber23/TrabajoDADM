@@ -4,8 +4,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import dadm.jrbercan.trabajodadm.data.moreGameInfo.MoreGameInfoDataSourceImpl
-import dadm.jrbercan.trabajodadm.data.moreGameInfo.model.SteamGameDtoAdapter
+import dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.MoreGameInfoDataSourceImpl
+import dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.model.SteamGameDtoAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

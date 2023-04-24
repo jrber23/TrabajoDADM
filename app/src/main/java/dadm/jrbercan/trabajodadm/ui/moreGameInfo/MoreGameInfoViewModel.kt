@@ -5,10 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dadm.jrbercan.trabajodadm.data.moreGameInfo.MoreGameInfoRepository
-import dadm.jrbercan.trabajodadm.data.moreGameInfo.model.GameDealsDto
-import dadm.jrbercan.trabajodadm.data.moreGameInfo.model.ShopsDto
-import dadm.jrbercan.trabajodadm.data.moreGameInfo.model.SteamGameDto
+import dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.MoreGameInfoRepository
+import dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.model.GameDealsDto
+import dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.model.ShopsDto
+import dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.model.SteamGameDto
 import dadm.jrbercan.trabajodadm.domain.model.GameDeals
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineName

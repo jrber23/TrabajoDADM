@@ -1,4 +1,4 @@
-package dadm.jrbercan.trabajodadm.data.moreGameInfo
+package dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo
 
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities

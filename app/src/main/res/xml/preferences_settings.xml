@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditTextPreference
+        android:key="email"
+        android:title="@string/email_default_text"
+        android:defaultValue=""
+        app:useSimpleSummaryProvider="true"
+        />
+
+
+    <EditTextPreference
+        android:key="price"
+        android:title="@string/alert_default_text"
+        android:defaultValue="15"
+        app:useSimpleSummaryProvider="true"
+        />
+
+</PreferenceScreen>

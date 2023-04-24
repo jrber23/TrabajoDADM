@@ -1,9 +1,9 @@
 package dadm.jrbercan.trabajodadm.di
 
-import dadm.jrbercan.trabajodadm.data.moreGameInfo.MoreGameInfoDataSource
-import dadm.jrbercan.trabajodadm.data.moreGameInfo.MoreGameInfoDataSourceImpl
-import dadm.jrbercan.trabajodadm.data.moreGameInfo.MoreGameInfoRepository
-import dadm.jrbercan.trabajodadm.data.moreGameInfo.MoreGameInfoRepositoryImpl
+import dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.MoreGameInfoDataSource
+import dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.MoreGameInfoDataSourceImpl
+import dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.MoreGameInfoRepository
+import dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.MoreGameInfoRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -7,34 +7,35 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.asLiveData
+import androidx.preference.PreferenceFragmentCompat
 import dadm.jrbercan.trabajodadm.R
+import dadm.jrbercan.trabajodadm.data.settings.SettingsRepository
 import dadm.jrbercan.trabajodadm.databinding.SettingsFragmentBinding
 import dadm.jrbercan.trabajodadm.ui.lastSales.SetAlertWhenAddingToFavFragment
 
-class SettingsFragment : Fragment(R.layout.settings_fragment) {
+class SettingsFragment() : PreferenceFragmentCompat() {
     private var _binding: SettingsFragmentBinding? = null
     private val binding get() = _binding!!
-    private var defaultPriceAlert: Int = 15
+    //private defaultPriceAlert = getDefaultPrice()
 
-
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.preferences_settings, rootKey)
+    }
 
 // Then navigate to the fragment using a FragmentTransaction
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+   /* override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = SettingsFragmentBinding.bind(view)
         // Set the hint of the editText to the value of the variable
-        binding.defaultPrice.hint = defaultPriceAlert.toString()
+        binding.defaultPrice.hint = defaultPriceAlert
 
         binding.saveButton.setOnClickListener {
             saveDefaultPriceAlert()
         }
 
-        binding.defaultPrice.hint = defaultPriceAlert.toString()
-
-        // Borrar cuando se implemente SharedPreferences
-        SetAlertWhenAddingToFavFragment.defaultPrice = defaultPriceAlert
 
     }
 
@@ -43,14 +44,10 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
         _binding = null
     }
 
-    private fun saveDefaultPriceAlert() {
-        val inputText = binding.defaultPrice.text.toString()
-        if (inputText.isNotEmpty()) {
-            defaultPriceAlert = inputText.toInt()
-            binding.defaultPrice.hint = defaultPriceAlert.toString()
 
-            SetAlertWhenAddingToFavFragment.defaultPrice = defaultPriceAlert
-        }
-    }
+
+    private fun getDefaultPrice() : String {
+        return settingsRepository.getPrice().asLiveData().value.toString()
+    }*/
 
 }

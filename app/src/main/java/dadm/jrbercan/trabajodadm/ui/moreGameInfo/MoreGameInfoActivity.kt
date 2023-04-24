@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import dadm.jrbercan.trabajodadm.R
-import dadm.jrbercan.trabajodadm.data.moreGameInfo.model.SteamGameDto
+import dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.model.SteamGameDto
 import dadm.jrbercan.trabajodadm.databinding.MoreGameInfoActivityBinding
 import dadm.jrbercan.trabajodadm.domain.model.GameDeals
 import dagger.hilt.android.AndroidEntryPoint

@@ -1,9 +1,9 @@
-package dadm.jrbercan.trabajodadm.data.moreGameInfo
+package dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo
 
 import android.util.Log
-import dadm.jrbercan.trabajodadm.data.moreGameInfo.model.GameDealsDto
-import dadm.jrbercan.trabajodadm.data.moreGameInfo.model.ShopsDto
-import dadm.jrbercan.trabajodadm.data.moreGameInfo.model.SteamGameDto
+import dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.model.GameDealsDto
+import dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.model.ShopsDto
+import dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.model.SteamGameDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType
@@ -18,7 +18,8 @@ import retrofit2.http.QueryMap
 import javax.inject.Inject
 import javax.inject.Named
 
-class MoreGameInfoDataSourceImpl @Inject constructor(@Named("CheapShark") private val retrofit: Retrofit, @Named("Steam") private val retrofit2: Retrofit): MoreGameInfoDataSource{
+class MoreGameInfoDataSourceImpl @Inject constructor(@Named("CheapShark") private val retrofit: Retrofit, @Named("Steam") private val retrofit2: Retrofit):
+    MoreGameInfoDataSource {
 
     private val retrofitShopService = retrofit.create(MoreGameInfoShopsRetrofit::class.java)
     private val retrofitSteamServiceSpanish = retrofit2.create(MoreGameInfoSteamRetrofitSpanish::class.java)

@@ -1,4 +1,4 @@
-package dadm.jrbercan.trabajodadm.data.moreGameInfo.model
+package dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.model
 
 import com.squareup.moshi.JsonClass
 
