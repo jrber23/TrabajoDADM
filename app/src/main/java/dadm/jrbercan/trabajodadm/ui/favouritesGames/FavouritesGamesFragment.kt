@@ -41,7 +41,7 @@ class FavouritesGamesFragment : Fragment(R.layout.fragment_favourites_games) {
 
             override fun onPrepareMenu(menu: Menu) {
                 // Hide or show the delete_all_favorite menu item based on whether the list is empty or not
-                // menu.findItem(R.id.delete_all_favorite)?.isVisible = viewModel.game.value?.isNotEmpty() == true
+                menu.findItem(R.id.delete_all_favorite)?.isVisible = viewModel.game.value?.isNotEmpty() == true
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
