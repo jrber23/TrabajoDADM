@@ -4,7 +4,7 @@
     <item
         android:id="@+id/delete_all_favorite"
         android:title="@string/deleteAllFavourite"
-        android:icon="@drawable/baseline_delete_24"
+        android:icon="@drawable/baseline_delete_24_black"
         app:showAsAction="always"
         />
 </menu>

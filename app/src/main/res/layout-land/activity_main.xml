@@ -16,14 +16,16 @@
             android:layout_height="?attr/actionBarSize"
             android:fitsSystemWindows="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/materialToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:minHeight="?attr/actionBarSize"
-                android:theme="@style/Theme.TrabajoDADM" />
+                android:theme="?attr/actionBarTheme"
+                app:subtitleTextColor="#FFFFFF"
+                app:titleTextColor="#FFFFFF" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -33,26 +35,23 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="8dp"
-            android:backgroundTint="@color/purple_200"
             app:defaultNavHost="true"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehaviour"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/bottomNavigationView"
             app:layout_constraintTop_toBottomOf="@+id/appbar"
             app:navGraph="@navigation/nav_graph"
             tools:layout="@layout/fragment_last_sales" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
+        <com.google.android.material.navigationrail.NavigationRailView
             android:id="@+id/bottomNavigationView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:itemIconTint="@color/white"
-            app:itemTextColor="@color/white"
-            app:backgroundTint="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/navHostFragment"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appbar"
             app:menu="@menu/menu_navigation" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
