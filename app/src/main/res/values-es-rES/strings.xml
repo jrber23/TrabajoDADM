@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TrabajoDADM</string>
+    <string name="app_name">SalesDiving</string>
     <string name="lastOffers">Últimas ofertas</string>
     <string name="salesMenuTitle">Ventas</string>
     <string name="favouritesMenuTitle">Favoritos</string>
