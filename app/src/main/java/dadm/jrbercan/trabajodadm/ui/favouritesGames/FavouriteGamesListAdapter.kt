@@ -3,16 +3,16 @@ package dadm.jrbercan.trabajodadm.ui.favouritesGames
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import dadm.jrbercan.trabajodadm.R
-import dadm.jrbercan.trabajodadm.data.favouritesGames.model.FavouriteGameDto
 import dadm.jrbercan.trabajodadm.databinding.SaleGameItemBinding
 import dadm.jrbercan.trabajodadm.domain.model.Game
 
-class FavouriteGamesListAdapter(val itemClicked: ItemClicked) :
-    androidx.recyclerview.widget.ListAdapter<FavouriteGameDto, FavouriteGamesListAdapter.ViewHolder>(
+class FavouriteGamesListAdapter(val itemClicked: ItemClicked, private val onFavouriteClicked: (Game) -> Unit) :
+    androidx.recyclerview.widget.ListAdapter<Game, FavouriteGamesListAdapter.ViewHolder>(
         GameDiff
     ) {
 
@@ -20,13 +20,13 @@ class FavouriteGamesListAdapter(val itemClicked: ItemClicked) :
         fun onClick(author: String)
     }
 
-    object GameDiff : DiffUtil.ItemCallback<FavouriteGameDto>() {
-        override fun areItemsTheSame(oldItem: FavouriteGameDto, newItem: FavouriteGameDto): Boolean {
-            return (oldItem.title == newItem.title) &&
-                    (oldItem.salePrice == newItem.salePrice)
+    object GameDiff : DiffUtil.ItemCallback<Game>() {
+        override fun areItemsTheSame(oldItem: Game, newItem: Game): Boolean {
+            return (oldItem.title == newItem.title)
+                    //&& (oldItem.salePrice == newItem.salePrice)
         }
 
-        override fun areContentsTheSame(oldItem: FavouriteGameDto, newItem: FavouriteGameDto): Boolean {
+        override fun areContentsTheSame(oldItem: Game, newItem: Game): Boolean {
             val ancientTitle: String = oldItem.title
             val newTitle: String = newItem.title
             return ancientTitle == newTitle
@@ -36,9 +36,9 @@ class FavouriteGamesListAdapter(val itemClicked: ItemClicked) :
 
     class ViewHolder(val binding: SaleGameItemBinding, callback: ItemClicked) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(game: FavouriteGameDto) {
+        fun bind(game: Game) {
             binding.tvGameTitle.text = game.title
-            binding.tvGamePrice.text = game.salePrice + " $"
+            binding.tvGamePrice.text = game.price + " $"
 
             Glide
                 .with(binding.imageView)
@@ -66,7 +66,15 @@ class FavouriteGamesListAdapter(val itemClicked: ItemClicked) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val game = getItem(position)
+        holder.bind(game)
+        val imageView = holder.itemView.findViewById<ImageView>(R.id.iconFavImageView)
+        if(game.favourite){
+            imageView.setImageResource(R.drawable.baseline_favorite_24)
+        }
+        imageView.setOnClickListener{
+            onFavouriteClicked(game)
+        }
     }
 }
 

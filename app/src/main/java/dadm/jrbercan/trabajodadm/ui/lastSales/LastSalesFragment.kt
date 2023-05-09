@@ -16,56 +16,51 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dadm.jrbercan.trabajodadm.R
-import dadm.jrbercan.trabajodadm.data.favouritesGames.model.FavouriteGameDto
-import dadm.jrbercan.trabajodadm.data.saleGames.model.SaleGameDto
 import dadm.jrbercan.trabajodadm.databinding.FragmentLastSalesBinding
+import dadm.jrbercan.trabajodadm.domain.model.Game
 import dadm.jrbercan.trabajodadm.ui.favouritesGames.DeleteAllGamesDialogFragment
 import dadm.jrbercan.trabajodadm.ui.moreGameInfo.MoreGameInfoActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavouritesDialogFragment.AddToFavouritesCallback {
+class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavouritesDialogFragment.AddToFavouritesCallback, SetAlertWhenAddingToFavFragment.SetAlarmCallback {
     private var _binding: FragmentLastSalesBinding? = null
     private val binding get() = _binding!!
     private val viewModel: LastSalesViewModel by activityViewModels()
     private val callback = object : LastSalesListAdapter.ItemClicked {
 
-        override fun onClick(game: FavouriteGameDto) {
+        override fun onClick(game: Game) {
 
         }
 
     }
 
-    private val addToFavoritesCallback = object : AddToFavouritesDialogFragment.AddToFavouritesCallback {
-
-        override fun onFavouriteSelected() {
-
-        }
-
-        override fun onCancelSelected() {
-
-        }
-
+    override fun onFavouriteSelected(game: Game) {
+        viewModel.addToFavourites(game)
     }
 
-    private fun onGameClicked(game: SaleGameDto) {
+    override fun onSetAlert(gameId : String, price : String){
+        viewModel.setPriceAlert(gameId, price)
+    }
+
+    private fun onGameClicked(game: Game) {
         //Log.d("GAME INFO","ID: ${game.gameID}.")
         val intent = Intent(context,MoreGameInfoActivity::class.java)
             .putExtra("GAME_TITLE",game.title)
-            .putExtra("GAME_ID",game.gameID)
-            .putExtra("GAME_STEAM_ID",game.steamAppID)
+            .putExtra("GAME_ID",game.id)
+            .putExtra("GAME_STEAM_ID",game.steamAppId)
             .putExtra("GAME_THUMB",game.thumb)
         startActivity(intent)
     }
 
-    private fun onFavoriteClicked(game: SaleGameDto) {
-        val dialogAddFavFragment = AddToFavouritesDialogFragment()
+    private fun onFavoriteClicked(game: Game) {
+        val dialogAddFavFragment = AddToFavouritesDialogFragment(game)
         dialogAddFavFragment.callback = this // Set the callback to this LastSalesFragment instance
         dialogAddFavFragment.show(childFragmentManager, null)
     }
 
-    override fun onFavouriteSelected() {
-        val dialogSetAlertFragment = SetAlertWhenAddingToFavFragment()
+    override fun setAlert(game : Game) {
+        val dialogSetAlertFragment = SetAlertWhenAddingToFavFragment(viewModel.getDefaultPriceSettings(), game)
         dialogSetAlertFragment.show(childFragmentManager, null)
     }
 
@@ -133,14 +128,8 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavourit
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
-    fun addToFavourites() {
-        viewModel.addToFavourites()
-    }
     fun getGameByTitle(title: String?) {
         viewModel.getGamesByTitle(title)
-    }
-    fun getAllSaleGames() {
-        viewModel.getAllSaleGames()
     }
 
     override fun onDestroy() {

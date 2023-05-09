@@ -4,5 +4,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
     fun getEmail() : Flow<String>
-    fun getPrice() : Flow<Int>
+    fun getPrice() : Flow<String>
 }

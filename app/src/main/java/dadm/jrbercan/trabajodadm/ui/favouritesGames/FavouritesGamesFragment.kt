@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dadm.jrbercan.trabajodadm.R
 import dadm.jrbercan.trabajodadm.databinding.FragmentFavouritesGamesBinding
+import dadm.jrbercan.trabajodadm.domain.model.Game
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,7 +42,7 @@ class FavouritesGamesFragment : Fragment(R.layout.fragment_favourites_games) {
 
             override fun onPrepareMenu(menu: Menu) {
                 // Hide or show the delete_all_favorite menu item based on whether the list is empty or not
-                menu.findItem(R.id.delete_all_favorite)?.isVisible = viewModel.game.value?.isNotEmpty() == true
+                menu.findItem(R.id.delete_all_favorite)?.isVisible = viewModel.favouriteGames.value?.isNotEmpty() == true
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -56,9 +57,9 @@ class FavouritesGamesFragment : Fragment(R.layout.fragment_favourites_games) {
 
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        val adapter: FavouriteGamesListAdapter = FavouriteGamesListAdapter(callback)
+        val adapter: FavouriteGamesListAdapter = FavouriteGamesListAdapter(callback, ::onFavouriteClicked)
         binding.recyclerViewFavorites.adapter = adapter
-        viewModel.game.observe(viewLifecycleOwner) { list ->
+        viewModel.favouriteGames.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
         }
         val touchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.END) {
@@ -91,5 +92,11 @@ class FavouritesGamesFragment : Fragment(R.layout.fragment_favourites_games) {
         super.onDestroy()
         _binding = null
     }
+
+    fun onFavouriteClicked(game : Game){
+        viewModel.deleteGameFromFavourites(game)
+    }
+
+
 
 }

@@ -15,4 +15,9 @@ class FavouriteGamesDataSourceImpl @Inject constructor(private val favouriteGame
     override suspend fun deleteAllFavouritesGames() {
         favouriteGamesDao.deleteAllFavouriteGames()
     }
+
+    override suspend fun deleteFavouriteGame(game: FavouriteGameDto) {
+        favouriteGamesDao.deleteFavouriteGame(game)
+    }
+
 }

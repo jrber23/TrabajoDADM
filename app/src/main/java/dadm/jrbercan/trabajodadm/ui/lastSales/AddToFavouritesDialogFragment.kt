@@ -8,10 +8,9 @@ import android.util.Log
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import dadm.jrbercan.trabajodadm.R
+import dadm.jrbercan.trabajodadm.domain.model.Game
 
-class AddToFavouritesDialogFragment() : DialogFragment(R.layout.fragment_last_sales) {
-
-    private val viewModel: LastSalesViewModel by activityViewModels()
+class AddToFavouritesDialogFragment(private val game : Game) : DialogFragment(R.layout.fragment_last_sales) {
 
     var callback: AddToFavouritesCallback? = null
 
@@ -21,7 +20,8 @@ class AddToFavouritesDialogFragment() : DialogFragment(R.layout.fragment_last_sa
             .setMessage(R.string.add_favorite_dialog_message)
             .setPositiveButton(R.string.dialog_yes) { _, _ ->
                 Log.d("ADD", "GAME ADDED")
-                callback?.onFavouriteSelected()
+                callback?.onFavouriteSelected(game)
+                callback?.setAlert(game)
                 dismiss()
             }
             .setNegativeButton(R.string.dialog_no) { _, _ ->
@@ -41,7 +41,8 @@ class AddToFavouritesDialogFragment() : DialogFragment(R.layout.fragment_last_sa
     }
 
     interface AddToFavouritesCallback {
-        fun onFavouriteSelected()
+        fun onFavouriteSelected(game : Game)
         fun onCancelSelected()
+        fun setAlert(game : Game)
     }
 }

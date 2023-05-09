@@ -17,4 +17,7 @@ interface FavouriteGamesDao {
     @Query("DELETE FROM ${TABLE_NAME}")
     suspend fun deleteAllFavouriteGames()
 
+    @Delete
+    suspend fun deleteFavouriteGame(game: FavouriteGameDto)
+
 }

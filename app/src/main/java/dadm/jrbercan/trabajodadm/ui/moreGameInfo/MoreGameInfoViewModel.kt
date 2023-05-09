@@ -12,6 +12,7 @@ import dadm.jrbercan.trabajodadm.data.favouritesGames.moreGameInfo.model.SteamGa
 import dadm.jrbercan.trabajodadm.domain.model.GameDeals
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineName
+
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

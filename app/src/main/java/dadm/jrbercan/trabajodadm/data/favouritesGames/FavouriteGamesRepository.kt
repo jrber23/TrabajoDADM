@@ -6,9 +6,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface FavouriteGamesRepository {
 
-    suspend fun addFavouriteGame(game: FavouriteGameDto)
+    suspend fun addFavouriteGame(game: Game)
 
-    fun getAllFavouriteGames(): Flow<List<FavouriteGameDto>>
+    fun getAllFavouriteGames(): Flow<List<Game>>
 
     suspend fun deleteAllFavouriteGames()
+
+    suspend fun deleteFavouriteGame(game : Game)
 }

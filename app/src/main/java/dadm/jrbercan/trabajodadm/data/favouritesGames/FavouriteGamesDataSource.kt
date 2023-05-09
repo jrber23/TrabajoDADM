@@ -10,4 +10,6 @@ interface FavouriteGamesDataSource {
     fun getAllFavouriteGames() : Flow<List<FavouriteGameDto>>
 
     suspend fun deleteAllFavouritesGames()
+
+    suspend fun deleteFavouriteGame(game : FavouriteGameDto)
 }

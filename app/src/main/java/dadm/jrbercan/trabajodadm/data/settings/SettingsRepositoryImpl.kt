@@ -10,7 +10,7 @@ class SettingsRepositoryImp @Inject constructor(private val settingsDataSource: 
         return settingsDataSource.getEmail()
     }
 
-    override fun getPrice(): Flow<Int> {
+    override fun getPrice(): Flow<String> {
         return settingsDataSource.getPrice()
     }
 }

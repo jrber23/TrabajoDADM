@@ -12,14 +12,13 @@ import javax.inject.Inject
 
 class SettingsDataSourceImp @Inject constructor(private val sharedPreferences: SharedPreferences) : SettingsDataSource {
 
-    private val emailKey : String = getEmailPreference()
-    private val priceKey : String = "price"
 
-    private val defaultPrice: Int = 15
+    private val defaultPrice: String = "20"
 
-    private fun getEmailPreference() : String = sharedPreferences.getString(emailKey, "") ?: ""
+    private fun getEmailPreference() : String = sharedPreferences.getString("email", "") ?: ""
 
     override fun getEmail(): Flow<String> = callbackFlow {
+        val emailKey : String = getEmailPreference()
         val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             launch(Dispatchers.IO) {
                 if (emailKey == key) {
@@ -34,18 +33,19 @@ class SettingsDataSourceImp @Inject constructor(private val sharedPreferences: S
         }
     }.flowOn(Dispatchers.IO)
 
-    private fun getIntPreference() : Int = sharedPreferences.getInt(priceKey, defaultPrice)
+    private fun getPricePreference() : String = sharedPreferences.getString("price", defaultPrice) ?: "20"
 
-    override fun getPrice(): Flow<Int> = callbackFlow {
+    override fun getPrice(): Flow<String> = callbackFlow {
+        val priceKey : String = getPricePreference()
         val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             launch(Dispatchers.IO) {
                 if (priceKey == key) {
-                    trySend(getIntPreference())
+                    trySend(getPricePreference())
                 }
             }
         }
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
-        trySend(getIntPreference())
+        trySend(getPricePreference())
         awaitClose {
             sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener)
         }

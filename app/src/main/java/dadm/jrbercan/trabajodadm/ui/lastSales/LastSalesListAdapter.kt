@@ -12,27 +12,27 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import dadm.jrbercan.trabajodadm.R
-import dadm.jrbercan.trabajodadm.data.favouritesGames.model.FavouriteGameDto
-import dadm.jrbercan.trabajodadm.data.saleGames.model.SaleGameDto
+import dadm.jrbercan.trabajodadm.data.favouritesGames.FavouriteGamesRepository
 import dadm.jrbercan.trabajodadm.databinding.SaleGameItemBinding
 import dadm.jrbercan.trabajodadm.domain.model.Game
 import okhttp3.*
+import javax.inject.Inject
 
-class LastSalesListAdapter(val itemClicked: ItemClicked, private val onFavoriteClicked: (SaleGameDto) -> Unit, private val onGameClicked: (SaleGameDto) -> Unit) :
-    androidx.recyclerview.widget.ListAdapter<SaleGameDto, LastSalesListAdapter.ViewHolder>(
+class LastSalesListAdapter(val itemClicked: ItemClicked, private val onFavoriteClicked: (Game) -> Unit, private val onGameClicked: (Game) -> Unit) :
+    androidx.recyclerview.widget.ListAdapter<Game, LastSalesListAdapter.ViewHolder>(
         LastSalesListAdapter.GameDiff
     ) {
     interface ItemClicked {
-        fun onClick(game: FavouriteGameDto)
+        fun onClick(game: Game)
     }
 
-    object GameDiff : DiffUtil.ItemCallback<SaleGameDto>() {
-        override fun areItemsTheSame(oldItem: SaleGameDto, newItem: SaleGameDto): Boolean {
+    object GameDiff : DiffUtil.ItemCallback<Game>() {
+        override fun areItemsTheSame(oldItem: Game, newItem: Game): Boolean {
             return (oldItem.title == newItem.title) &&
-                    (oldItem.salePrice == newItem.salePrice)
+                    (oldItem.price == newItem.price)
         }
 
-        override fun areContentsTheSame(oldItem: SaleGameDto, newItem: SaleGameDto): Boolean {
+        override fun areContentsTheSame(oldItem: Game, newItem: Game): Boolean {
             val ancientTitle: String = oldItem.title
             val newTitle: String = newItem.title
             return ancientTitle == newTitle
@@ -42,13 +42,13 @@ class LastSalesListAdapter(val itemClicked: ItemClicked, private val onFavoriteC
 
     class ViewHolder(val binding: SaleGameItemBinding, callback: ItemClicked) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(game: SaleGameDto) {
+        fun bind(game: Game) {
             binding.tvGameTitle.text = game.title
-            if (game.salePrice == "0.00") { binding.tvGamePrice.text = binding.tvGamePrice.context.getString(R.string.free_sale) }
-            else { binding.tvGamePrice.text = game.salePrice + " $" }
+            if (game.price == "0.00") { binding.tvGamePrice.text = binding.tvGamePrice.context.getString(R.string.free_sale) }
+            else { binding.tvGamePrice.text = game.price + " $" }
 
             Glide.
-                with(binding.imageView.context)
+            with(binding.imageView.context)
                 .load(game.thumb)
                 .placeholder(R.drawable.ic_launcher_background)
                 .into(binding.imageView)
@@ -76,7 +76,9 @@ class LastSalesListAdapter(val itemClicked: ItemClicked, private val onFavoriteC
         val sale = getItem(position)
         holder.bind(sale)
 
-        holder.itemView.findViewById<ImageView>(R.id.iconFavImageView).setOnClickListener {
+        val imageViewFav =  holder.itemView.findViewById<ImageView>(R.id.iconFavImageView)
+
+        imageViewFav.setOnClickListener {
             onFavoriteClicked(getItem(position))
         }
 

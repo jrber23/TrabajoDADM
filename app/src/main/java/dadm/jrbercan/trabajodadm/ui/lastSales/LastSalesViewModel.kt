@@ -5,43 +5,45 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bumptech.glide.Glide.init
 import dadm.jrbercan.trabajodadm.data.favouritesGames.FavouriteGamesRepository
 import dadm.jrbercan.trabajodadm.data.saleGames.SaleGamesApiService
-import dadm.jrbercan.trabajodadm.data.saleGames.model.SaleGameDto
 import dadm.jrbercan.trabajodadm.data.saleGames.model.toDomain
+import dadm.jrbercan.trabajodadm.data.settings.SettingsRepository
 import dadm.jrbercan.trabajodadm.domain.model.Game
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.properties.Delegates
 import kotlin.random.Random
 
 @HiltViewModel
-class LastSalesViewModel @Inject constructor() : ViewModel() {
-    private val _game : MutableLiveData<List<SaleGameDto>> = MutableLiveData()
-    val game : LiveData<List<SaleGameDto>>
+class LastSalesViewModel @Inject constructor(private val favouriteGamesRepository: FavouriteGamesRepository, private val settingsRepository: SettingsRepository) : ViewModel() {
+    private val _game : MutableLiveData<List<Game>> = MutableLiveData()
+    val game : LiveData<List<Game>>
         get() =_game
+    private lateinit var defaultPrice : String
+    private lateinit var email : String
 
     init {
         getAllSaleGames()
-    }
-
-    private fun getFavouriteGames(): MutableLiveData<List<Game>> {
-        val list: ArrayList<Game> = ArrayList(10)
-        for (i in 1..10) {
-            val numPrice = getRandom(0, 10)
-            val numTitle = (0..10).random().toString()
-            val newGame = Game("", "Title  #$numTitle", "14.99 $")
-            list.add(newGame)
+        CoroutineScope(SupervisorJob()).launch {
+            settingsRepository.getPrice().collect { price ->
+                defaultPrice = price
+            }
+            settingsRepository.getEmail().collect{
+                email = it
+            }
         }
-        val mutableLiveData : MutableLiveData<List<Game>> = MutableLiveData(list.toList())
-        return mutableLiveData
     }
 
-    fun getAllSaleGames() {
+    private fun getAllSaleGames() {
         viewModelScope.launch(CoroutineName("GetAllSaleGamesFunction")) {
             try {
-                val listResult = SaleGamesApiService.SaleGamesApi.retrofitService.getAllSaleGames()
+                val listResult = SaleGamesApiService.SaleGamesApi.retrofitService.getAllSaleGames().map{it -> it.toDomain()}
                 _game.value = listResult
             } catch (e: Exception) {
                 Log.d("FAILURE", e.toString())
@@ -53,20 +55,20 @@ class LastSalesViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(CoroutineName("GetGamesByTitleFunction")) {
             try {
                 val listResult = SaleGamesApiService.SaleGamesApi.retrofitService.getGamesByTitle(title)
-                val gameOfListtoGame = mutableListOf<SaleGameDto>()
+                val gameOfListToGame = mutableListOf<Game>()
                 for (game in listResult) {
-                    gameOfListtoGame.add(SaleGameDto(game.cheapestDealID,game.external,game.cheapest,game.thumb,game.gameID,game.steamAppID))
+                    gameOfListToGame.add(Game(game.gameID,game.external,game.cheapest,game.thumb,false, game.steamAppID, game.cheapestDealID))
                 }
-                _game.value = gameOfListtoGame
+                _game.value = gameOfListToGame
             } catch (e: Exception) {
                 Log.d("FAILURE", e.toString())
             }
         }
     }
 
-    fun addToFavourites() {
+    fun addToFavourites(game : Game) {
         viewModelScope.launch(CoroutineName("AddToFavouritesGamesMethod")) {
-
+            favouriteGamesRepository.addFavouriteGame(game)
         }
     }
 
@@ -75,4 +77,16 @@ class LastSalesViewModel @Inject constructor() : ViewModel() {
         return min + Random.nextDouble() * (max - min)
     }
 
+    fun getDefaultPriceSettings() : String {
+
+        return defaultPrice
+    }
+
+    fun setPriceAlert(gameId : String, price : String){
+        viewModelScope.launch{
+            val res = SaleGamesApiService.SaleGamesApi.retrofitService.setPriceAlert(email, gameId, price)
+            Log.d("ADD", res.toString())
+        }
+
+    }
 }
