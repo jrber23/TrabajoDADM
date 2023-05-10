@@ -43,8 +43,7 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavourit
     }
 
     override fun onSetAlert(gameId : String, price : String){
-        var email = viewModel.getEmailSettings()
-        val res = viewModel.setPriceAlert(email,gameId, price)
+        val res = viewModel.setPriceAlert(gameId, price)
         Log.d("APICALLRESPONSE","price:$price gameId:$gameId $res")
     }
 

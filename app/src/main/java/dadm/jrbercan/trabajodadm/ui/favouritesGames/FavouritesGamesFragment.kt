@@ -48,7 +48,8 @@ class FavouritesGamesFragment : Fragment(R.layout.fragment_favourites_games) {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.delete_all_favorite -> {
-                        DeleteAllGamesDialogFragment().show(childFragmentManager, null)
+                        Log.d("ViewModelData", viewModel.favouriteGames.value.toString())
+                        DeleteAllGamesDialogFragment(viewModel.favouriteGames.value!!).show(childFragmentManager, null)
                         true
                     }
                     else -> false

@@ -8,8 +8,9 @@ import android.util.Log
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import dadm.jrbercan.trabajodadm.R
+import dadm.jrbercan.trabajodadm.domain.model.Game
 
-class DeleteAllGamesDialogFragment(): DialogFragment(R.layout.fragment_favourites_games) {
+class DeleteAllGamesDialogFragment(private val games : List<Game>): DialogFragment(R.layout.fragment_favourites_games) {
 
     private val viewModel: FavouritesGamesViewModel by activityViewModels()
 
@@ -19,7 +20,7 @@ class DeleteAllGamesDialogFragment(): DialogFragment(R.layout.fragment_favourite
             .setMessage(R.string.delete_all_games_dialog_message)
             .setPositiveButton(R.string.dialog_yes) {_,_ ->
                 Log.d("DELETE", "ALL DELETED")
-                viewModel.deleteAllFavouriteGames()
+                viewModel.deleteAllFavouriteGames(games)
             }
             .setNegativeButton(R.string.dialog_no) { _,_ ->
                 dismiss()

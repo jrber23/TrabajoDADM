@@ -83,13 +83,9 @@ class LastSalesViewModel @Inject constructor(private val favouriteGamesRepositor
         return defaultPrice
     }
 
-    fun getEmailSettings() : String {
 
-        return email
-    }
-
-    fun setPriceAlert(email : String, gameId : String, price : String) : String{
-        var res = true
+    fun setPriceAlert( gameId : String, price : String) : String{
+        var res = false
         viewModelScope.launch{
             res = SaleGamesApiService.SaleGamesApi.retrofitService.setPriceAlert(email, gameId, price)
         }

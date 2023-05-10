@@ -36,6 +36,12 @@ object SaleGamesApiService {
             @Query("gameID") gameid: String,
             @Query("price") price: String
         ) : Boolean
+
+        @GET("alerts?action=delete")
+        suspend fun deletePriceAlert(
+            @Query("email") email: String,
+            @Query("gameID") gameid: String,
+        ) : Boolean
     }
 
     object SaleGamesApi {
