@@ -13,7 +13,7 @@ import dadm.jrbercan.trabajodadm.domain.model.Game
 class AddToFavouritesDialogFragment(private val game : Game) : DialogFragment(R.layout.fragment_last_sales) {
 
     var callback: AddToFavouritesCallback? = null
-
+    //val game = Game("", "", "", "", false, "", "")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.add_favorite_dialog_title)

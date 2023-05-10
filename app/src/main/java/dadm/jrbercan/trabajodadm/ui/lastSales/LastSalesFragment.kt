@@ -10,6 +10,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -25,7 +26,7 @@ import dadm.jrbercan.trabajodadm.ui.moreGameInfo.MoreGameInfoActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavouritesDialogFragment.AddToFavouritesCallback, SetAlertWhenAddingToFavFragment.SetAlarmCallback {
+class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavouritesDialogFragment.AddToFavouritesCallback, SetAlertWhenAddingToFavFragment.SetAlertCallback {
     private var _binding: FragmentLastSalesBinding? = null
     private val binding get() = _binding!!
     private val viewModel: LastSalesViewModel by activityViewModels()
@@ -42,7 +43,9 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavourit
     }
 
     override fun onSetAlert(gameId : String, price : String){
-        viewModel.setPriceAlert(gameId, price)
+        var email = viewModel.getEmailSettings()
+        val res = viewModel.setPriceAlert(email,gameId, price)
+        Log.d("APICALLRESPONSE","price:$price gameId:$gameId $res")
     }
 
     private fun onGameClicked(game: Game) {
@@ -63,6 +66,7 @@ class LastSalesFragment : Fragment(R.layout.fragment_last_sales),  AddToFavourit
 
     override fun setAlert(game : Game) {
         val dialogSetAlertFragment = SetAlertWhenAddingToFavFragment(viewModel.getDefaultPriceSettings(), game)
+        dialogSetAlertFragment.callback = this
         dialogSetAlertFragment.show(childFragmentManager, null)
     }
 

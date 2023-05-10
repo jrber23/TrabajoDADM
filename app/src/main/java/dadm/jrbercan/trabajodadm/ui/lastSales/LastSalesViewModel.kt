@@ -1,11 +1,15 @@
 package dadm.jrbercan.trabajodadm.ui.lastSales
 
+import android.provider.Settings.Global.getString
 import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide.init
+import dadm.jrbercan.trabajodadm.R
 import dadm.jrbercan.trabajodadm.data.favouritesGames.FavouriteGamesRepository
 import dadm.jrbercan.trabajodadm.data.saleGames.SaleGamesApiService
 import dadm.jrbercan.trabajodadm.data.saleGames.model.toDomain
@@ -34,8 +38,10 @@ class LastSalesViewModel @Inject constructor(private val favouriteGamesRepositor
             settingsRepository.getPrice().collect { price ->
                 defaultPrice = price
             }
-            settingsRepository.getEmail().collect{
-                email = it
+        }
+        CoroutineScope(SupervisorJob()).launch {
+            settingsRepository.getEmail().collect{ n ->
+                email = n
             }
         }
     }
@@ -72,21 +78,23 @@ class LastSalesViewModel @Inject constructor(private val favouriteGamesRepositor
         }
     }
 
-    private fun getRandom(min: Int, max: Int): Double {
-        require(min < max) { "Invalid range [$min, $max]" }
-        return min + Random.nextDouble() * (max - min)
-    }
-
     fun getDefaultPriceSettings() : String {
 
         return defaultPrice
     }
 
-    fun setPriceAlert(gameId : String, price : String){
+    fun getEmailSettings() : String {
+
+        return email
+    }
+
+    fun setPriceAlert(email : String, gameId : String, price : String) : String{
+        var res = true
         viewModelScope.launch{
-            val res = SaleGamesApiService.SaleGamesApi.retrofitService.setPriceAlert(email, gameId, price)
-            Log.d("ADD", res.toString())
+            res = SaleGamesApiService.SaleGamesApi.retrofitService.setPriceAlert(email, gameId, price)
         }
+        return "$res $email"
+
 
     }
 }

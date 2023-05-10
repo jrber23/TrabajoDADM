@@ -22,7 +22,7 @@ import kotlin.properties.Delegates
 
 class SetAlertWhenAddingToFavFragment(private val defaultPrice : String, private val game : Game) : DialogFragment(R.layout.set_alert_dialog) {
 
-    var callback: SetAlarmCallback? = null
+    var callback: SetAlertCallback? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,13 +35,13 @@ class SetAlertWhenAddingToFavFragment(private val defaultPrice : String, private
 
         acceptButton.setOnClickListener {
             var alertPrice = numberEditText.text.toString()
-            if (alertPrice != null) {
+            if (alertPrice != "") {
                 Log.d("SetAlertWhenAddingToFavFragment", "Number entered: $alertPrice")
-
             }
             else {
                 alertPrice = defaultPrice
             }
+            Log.d("Callbackactive", callback.toString())
             callback?.onSetAlert(game.id, alertPrice)
             dismiss()
             Toast.makeText(requireContext(), getString(R.string.alert_price_set_toastText)+ alertPrice, Toast.LENGTH_SHORT).show()
@@ -53,14 +53,14 @@ class SetAlertWhenAddingToFavFragment(private val defaultPrice : String, private
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is SetAlarmCallback) {
+        if (context is SetAlertCallback) {
             callback = context
         } else {
 
         }
     }
 
-    interface SetAlarmCallback {
+    interface SetAlertCallback {
         fun onSetAlert(gameId : String, price : String)
     }
 }

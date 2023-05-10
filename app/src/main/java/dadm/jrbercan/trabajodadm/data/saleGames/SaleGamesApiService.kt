@@ -30,10 +30,10 @@ object SaleGamesApiService {
         @GET("games?exact=0")
         suspend fun getGamesByTitle(@Query("title") title: String?): List<GameOfList>
 
-        @GET("alert")
+        @GET("alerts?action=set")
         suspend fun setPriceAlert(
             @Query("email") email: String,
-            @Query("gameid") gameid: String,
+            @Query("gameID") gameid: String,
             @Query("price") price: String
         ) : Boolean
     }
